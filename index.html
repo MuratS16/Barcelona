@@ -1,0 +1,1455 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
+<meta name="theme-color" content="#123F3C">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Barselona">
+<title>Barselona Gezisi</title>
+<style>
+:root{
+  --paper:#F6F2E9; --card:#FFFFFF; --ink:#123F3C; --ink2:#4A5F5C;
+  --muted:#8B948F; --line:#E6E0D3; --gold:#C77F2B; --gold-soft:#F6E6CC;
+  --green:#2E6B58; --green-soft:#E1EFE9; --sky:#2E6FA3; --sky-soft:#E3EDF6;
+  --rose:#B0402F; --rose-soft:#F7E2DE;
+  --shadow:0 1px 2px rgba(18,63,60,.06),0 8px 24px rgba(18,63,60,.07);
+  --r:18px; --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+  --serif:ui-serif,"New York",Georgia,"Iowan Old Style","Times New Roman",serif;
+  --safe-b:env(safe-area-inset-bottom,0px); --safe-t:env(safe-area-inset-top,0px);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
+  -webkit-font-smoothing:antialiased;overscroll-behavior-y:none}
+body{max-width:520px;margin:0 auto;min-height:100vh;position:relative}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+a{color:var(--sky);text-decoration:none}
+input,textarea,select{font-family:inherit;font-size:16px}
+.app{padding:calc(var(--safe-t) + 8px) 16px 108px}
+h1,h2,h3{margin:0}
+.serif{font-family:var(--serif)}
+
+/* ---- header ---- */
+.top{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;margin:6px 2px 14px}
+.top .ki{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.top h1{font-family:var(--serif);font-size:27px;font-weight:600;line-height:1.05;margin-top:3px}
+.top .date{font-size:13px;color:var(--ink2);margin-top:4px;font-weight:600}
+.flag{width:34px;height:34px;border-radius:10px;flex:none;border:1px solid var(--line);
+  background:
+   conic-gradient(from 45deg at 30% 30%, #C77F2B 0 25%, #2E6B58 0 50%, #B0402F 0 75%, #2E6FA3 0 100%);
+  filter:saturate(.85)}
+
+/* ---- cards ---- */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:16px;margin-bottom:14px}
+.card .lbl{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);font-weight:800}
+.greet{font-family:var(--serif);font-size:22px;font-weight:600;margin:2px 0 14px 2px}
+
+.pbar{height:12px;background:var(--line);border-radius:99px;overflow:hidden;margin:12px 0 8px}
+.pbar>i{display:block;height:100%;background:linear-gradient(90deg,var(--green),#3f8f76);border-radius:99px;transition:width .5s cubic-bezier(.4,0,.2,1)}
+.prow{display:flex;justify-content:space-between;align-items:center}
+.prow b{font-family:var(--serif);font-size:15px}
+.prow .pct{font-family:var(--serif);font-size:20px;color:var(--green);font-weight:700}
+
+.next{background:linear-gradient(160deg,#123F3C,#1B5F52);color:#fff;border:none}
+.next .lbl{color:#9dc9bd}
+.next .t{font-family:var(--serif);font-size:34px;font-weight:600;line-height:1;margin:8px 0 2px;letter-spacing:.01em}
+.next .name{font-size:19px;font-weight:600;margin-bottom:2px}
+.next .meta{color:#bad8d0;font-size:13.5px;margin-bottom:14px}
+.next .cd{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.12);
+  padding:5px 10px;border-radius:99px;font-size:12.5px;font-weight:700;margin-bottom:14px}
+.next .cd i{width:7px;height:7px;border-radius:99px;background:#F2C879;animation:pulse 1.6s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.mapbtn{display:inline-flex;align-items:center;gap:7px;background:var(--gold);color:#2c1c02;
+  font-weight:700;padding:11px 16px;border-radius:13px;font-size:14.5px}
+.next .mapbtn{background:#fff;color:var(--ink)}
+
+.wx{display:flex;align-items:center;justify-content:space-between}
+.wx .temp{font-family:var(--serif);font-size:42px;font-weight:600;line-height:1}
+.wx .ico{font-size:40px}
+.wx .desc{font-size:13px;color:var(--ink2);font-weight:600}
+.wx .hilo{font-size:12.5px;color:var(--muted);margin-top:2px}
+
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px;
+  box-shadow:var(--shadow);display:flex;flex-direction:column;gap:6px;text-align:left}
+.tile .e{font-size:22px}
+.tile b{font-size:14.5px}
+.tile span{font-size:11.5px;color:var(--muted);font-weight:600}
+
+/* ---- day list ---- */
+.dayrow{display:flex;align-items:center;gap:13px;background:var(--card);border:1px solid var(--line);
+  border-radius:16px;padding:13px 14px;margin-bottom:10px;box-shadow:var(--shadow);text-align:left;width:100%}
+.dayrow.now{border-color:var(--gold);box-shadow:0 0 0 2px var(--gold-soft),var(--shadow)}
+.dnum{width:46px;height:46px;border-radius:13px;background:var(--ink);color:#fff;flex:none;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1}
+.dnum b{font-family:var(--serif);font-size:19px}.dnum s{font-size:9px;text-decoration:none;opacity:.75;letter-spacing:.06em}
+.dayrow .di{flex:1;min-width:0}
+.dayrow .di b{font-size:15px;display:block}
+.dayrow .di span{font-size:12.5px;color:var(--muted);display:block;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mini{font-size:11px;font-weight:800;color:var(--green);flex:none}
+.chev{color:var(--muted);flex:none}
+
+/* ---- timeline ---- */
+.dhdr{margin:2px 2px 14px}
+.dhdr .kd{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:800}
+.dhdr h2{font-family:var(--serif);font-size:25px;font-weight:600;margin-top:3px}
+.dhdr p{font-size:13px;color:var(--ink2);margin:5px 0 0}
+.tl{position:relative;padding-left:4px}
+.item{display:flex;gap:12px;position:relative;padding-bottom:4px}
+.item .rail{width:40px;flex:none;display:flex;flex-direction:column;align-items:center}
+.item .time{font-size:12px;font-weight:800;color:var(--ink2);font-variant-numeric:tabular-nums;padding-top:16px}
+.item .dot{width:13px;height:13px;border-radius:99px;border:2.5px solid var(--muted);background:var(--paper);margin-top:6px;z-index:2}
+.item .line{width:2px;flex:1;background:var(--line);margin-top:2px}
+.item:last-child .line{display:none}
+.item.done .dot{background:var(--green);border-color:var(--green)}
+.item.now .dot{border-color:var(--gold);background:var(--gold);box-shadow:0 0 0 4px var(--gold-soft)}
+.icard{flex:1;background:var(--card);border:1px solid var(--line);border-radius:15px;padding:12px 13px;
+  margin-bottom:12px;box-shadow:var(--shadow);display:flex;align-items:center;gap:11px;text-align:left}
+.item.done .icard{background:#FBFAF6}
+.item.done .icard .ti{text-decoration:line-through;color:var(--muted)}
+.icard .em{font-size:22px;flex:none;width:26px;text-align:center}
+.icard .ic{flex:1;min-width:0}
+.icard .ti{font-size:15px;font-weight:600;line-height:1.25}
+.icard .su{font-size:12px;color:var(--muted);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.check{width:27px;height:27px;border-radius:99px;border:2px solid var(--line);flex:none;
+  display:flex;align-items:center;justify-content:center;color:#fff;font-size:15px;transition:.15s}
+.item.done .check{background:var(--green);border-color:var(--green)}
+.tag{display:inline-block;font-size:9.5px;font-weight:800;letter-spacing:.03em;padding:2px 6px;border-radius:6px;
+  vertical-align:middle;margin-left:6px}
+.tag.opt{background:var(--gold-soft);color:#7a4f0f}
+.tag.book{background:var(--rose-soft);color:#8a2d20}
+.tag.tbc{background:var(--sky-soft);color:#245a86}
+
+/* ---- sheets ---- */
+.scrim{position:fixed;inset:0;background:rgba(12,40,38,.42);opacity:0;pointer-events:none;transition:.25s;z-index:40;backdrop-filter:blur(2px)}
+.scrim.on{opacity:1;pointer-events:auto}
+.sheet{position:fixed;left:0;right:0;bottom:0;max-width:520px;margin:0 auto;background:var(--paper);
+  border-radius:22px 22px 0 0;z-index:50;transform:translateY(100%);transition:transform .28s cubic-bezier(.32,.72,0,1);
+  max-height:92vh;display:flex;flex-direction:column;padding-bottom:var(--safe-b)}
+.sheet.on{transform:translateY(0)}
+.sheet .grip{width:38px;height:4.5px;border-radius:99px;background:var(--line);margin:9px auto 4px;flex:none}
+.sheet .sc{overflow-y:auto;padding:8px 18px 22px;-webkit-overflow-scrolling:touch}
+.sh-hd{display:flex;align-items:flex-start;gap:12px;margin:4px 0 16px}
+.sh-hd .em{font-size:34px}
+.sh-hd .time{font-family:var(--serif);font-size:30px;font-weight:600;line-height:1}
+.sh-hd h3{font-size:19px;font-weight:600;margin-top:3px}
+.sh-hd .du{font-size:12.5px;color:var(--muted);font-weight:600;margin-top:3px}
+.acts{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:8px}
+.act{display:flex;align-items:center;gap:9px;background:var(--card);border:1px solid var(--line);
+  border-radius:13px;padding:12px 13px;font-size:14px;font-weight:600;box-shadow:var(--shadow)}
+.act.wide{grid-column:1/-1}
+.act .e{font-size:17px}
+.act.pri{background:var(--ink);color:#fff;border:none}
+.sec-l{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:800;margin:18px 2px 8px}
+.field{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:12px;box-shadow:var(--shadow)}
+.field textarea{width:100%;border:none;outline:none;resize:vertical;min-height:60px;background:transparent;color:var(--ink);font-size:15px;line-height:1.45}
+.thumbs{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
+.thumb{width:74px;height:74px;border-radius:11px;object-fit:cover;border:1px solid var(--line)}
+.thumbwrap{position:relative}
+.thumbwrap .x{position:absolute;top:-6px;right:-6px;width:22px;height:22px;border-radius:99px;background:var(--rose);color:#fff;font-size:13px;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow)}
+.addph{width:74px;height:74px;border-radius:11px;border:1.5px dashed var(--muted);color:var(--muted);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:11px;gap:2px;background:var(--card)}
+.addph .e{font-size:20px}
+
+/* ---- route ---- */
+.route{position:relative;padding-left:26px;margin:6px 0 4px}
+.route .stop{position:relative;padding:11px 0}
+.route .stop:before{content:"";position:absolute;left:-20px;top:16px;width:12px;height:12px;border-radius:99px;background:var(--card);border:2.5px solid var(--gold);z-index:2}
+.route .stop:after{content:"";position:absolute;left:-14.5px;top:24px;bottom:-11px;width:2px;background:var(--line)}
+.route .stop:last-child:after{display:none}
+.route .stop b{font-size:15px}.route .stop span{font-size:12px;color:var(--muted);display:block;margin-top:2px}
+
+/* ---- rows ---- */
+.lrow{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;padding:13px 14px;margin-bottom:9px;box-shadow:var(--shadow);width:100%;text-align:left}
+.lrow .e{font-size:20px;width:26px;text-align:center;flex:none}
+.lrow .li{flex:1;min-width:0}.lrow .li b{font-size:15px;display:block}
+.lrow .li span{font-size:12.5px;color:var(--muted);display:block;margin-top:2px}
+.callrow{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:10px 0 4px}
+.callrow.two{grid-template-columns:1fr 1fr}
+.cbtn{display:flex;flex-direction:column;align-items:center;gap:4px;background:var(--card);border:1px solid var(--line);
+  border-radius:13px;padding:11px 6px;font-size:12px;font-weight:700;box-shadow:var(--shadow)}
+.cbtn .e{font-size:19px}
+.cbtn.red{background:var(--rose);color:#fff;border:none}
+.cbtn.gold{background:var(--gold);color:#2c1c02;border:none}
+.hotelcard{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:15px;margin-bottom:13px;box-shadow:var(--shadow)}
+.hotelcard h3{font-family:var(--serif);font-size:18px;font-weight:600}
+.hotelcard .cityline{font-size:12.5px;color:var(--muted);margin-top:2px}
+.nights{display:flex;gap:8px;margin:12px 0}
+.nb{flex:1;background:var(--paper);border-radius:11px;padding:9px;text-align:center}
+.nb s{font-size:10px;color:var(--muted);text-decoration:none;letter-spacing:.04em;font-weight:800}
+.nb b{font-family:var(--serif);font-size:15px;display:block;margin-top:2px}
+
+/* ---- tables ---- */
+.ftab{width:100%;border-collapse:collapse;font-size:13.5px}
+.ftab th,.ftab td{text-align:left;padding:9px 6px;border-bottom:1px solid var(--line)}
+.ftab th{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.ftab td:last-child,.ftab th:last-child{text-align:right;font-variant-numeric:tabular-nums;font-weight:700}
+.ftab tr:last-child td{border-bottom:none}
+
+/* ---- open/closed ---- */
+.oc{display:flex;align-items:center;gap:11px;padding:11px 2px;border-bottom:1px solid var(--line)}
+.oc:last-child{border-bottom:none}
+.oc .ocn{flex:1}.oc .ocn b{font-size:14.5px;display:block}
+.oc .ocn span{font-size:11.5px;color:var(--muted)}
+.badge{font-size:10.5px;font-weight:800;padding:4px 9px;border-radius:99px;flex:none}
+.badge.on{background:var(--green-soft);color:#1f5745}
+.badge.off{background:var(--rose-soft);color:#8a2d20}
+.badge.part{background:var(--gold-soft);color:#7a4f0f}
+
+/* ---- money ---- */
+.total{background:linear-gradient(160deg,#2E6B58,#3f8f76);color:#fff;border:none}
+.total .lbl{color:#c7e8dc}
+.total .amt{font-family:var(--serif);font-size:38px;font-weight:600;margin-top:4px}
+.total small{color:#c7e8dc;font-size:12.5px}
+.bars{margin-top:8px}
+.barrow{display:flex;align-items:center;gap:9px;margin:9px 0;font-size:13px}
+.barrow .bl{width:82px;flex:none;color:var(--ink2);font-weight:600}
+.barrow .bt{flex:1;height:9px;background:var(--line);border-radius:99px;overflow:hidden}
+.barrow .bt>i{display:block;height:100%;border-radius:99px}
+.barrow .bv{width:56px;text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
+.exrow{display:flex;align-items:center;gap:11px;padding:11px 2px;border-bottom:1px solid var(--line)}
+.exrow .ee{font-size:18px;width:24px;text-align:center}
+.exrow .ei{flex:1}.exrow .ei b{font-size:14.5px}.exrow .ei span{font-size:11.5px;color:var(--muted)}
+.exrow .ea{font-weight:800;font-variant-numeric:tabular-nums}
+.exrow .del{color:var(--rose);font-size:13px;padding:4px 8px}
+.addbar{display:flex;gap:8px;margin-top:12px}
+.inp{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:11px 13px;outline:none;color:var(--ink);box-shadow:var(--shadow)}
+.inp.full{width:100%;margin-bottom:9px}
+
+/* ---- assistant ---- */
+.fab{position:fixed;right:16px;bottom:calc(78px + var(--safe-b));width:56px;height:56px;border-radius:99px;
+  background:var(--gold);color:#2c1c02;font-size:24px;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 6px 20px rgba(199,127,43,.45);z-index:35}
+.chat-sheet{max-height:86vh}
+.chat-hd{display:flex;align-items:center;gap:10px;padding:2px 2px 12px}
+.chat-hd .av{width:36px;height:36px;border-radius:99px;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px}
+.chat-hd b{font-family:var(--serif);font-size:17px}.chat-hd span{font-size:11.5px;color:var(--muted);display:block}
+.msgs{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:10px;padding:8px 2px 14px;min-height:180px}
+.msg{max-width:86%;padding:11px 14px;border-radius:16px;font-size:14.5px;line-height:1.5;white-space:pre-wrap}
+.msg.u{align-self:flex-end;background:var(--ink);color:#fff;border-bottom-right-radius:5px}
+.msg.a{align-self:flex-start;background:var(--card);border:1px solid var(--line);border-bottom-left-radius:5px}
+.msg.a b{color:var(--gold)}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:4px 0 10px;-webkit-overflow-scrolling:touch}
+.chip{white-space:nowrap;background:var(--card);border:1px solid var(--line);border-radius:99px;padding:8px 13px;font-size:12.5px;font-weight:600;color:var(--ink2);flex:none;box-shadow:var(--shadow)}
+.chatbar{display:flex;gap:8px;padding:6px 2px 4px;align-items:flex-end}
+.chatbar textarea{flex:1;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:11px 14px;outline:none;color:var(--ink);resize:none;max-height:90px;box-shadow:var(--shadow)}
+.send{width:44px;height:44px;border-radius:99px;background:var(--gold);color:#2c1c02;font-size:19px;flex:none;display:flex;align-items:center;justify-content:center}
+.typing i{display:inline-block;width:6px;height:6px;border-radius:99px;background:var(--muted);margin:0 1px;animation:blink 1.2s infinite}
+.typing i:nth-child(2){animation-delay:.2s}.typing i:nth-child(3){animation-delay:.4s}
+@keyframes blink{0%,100%{opacity:.3}50%{opacity:1}}
+
+/* ---- tabs ---- */
+.tabs{position:fixed;left:0;right:0;bottom:0;max-width:520px;margin:0 auto;background:rgba(246,242,233,.93);
+  backdrop-filter:blur(14px);border-top:1px solid var(--line);display:flex;z-index:30;padding-bottom:var(--safe-b)}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 0 8px;color:var(--muted);font-size:10px;font-weight:700}
+.tab .e{font-size:20px;line-height:1}
+.tab.on{color:var(--ink)}
+
+.empty{text-align:center;color:var(--muted);padding:40px 20px;font-size:14px}
+.empty .e{font-size:36px;display:block;margin-bottom:10px}
+.hint{font-size:12px;color:var(--muted);line-height:1.55;margin:4px 2px}
+.divider{height:1px;background:var(--line);margin:16px 0}
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:800;padding:4px 9px;border-radius:99px;background:var(--gold-soft);color:#7a4f0f}
+.pill.off{background:var(--line);color:var(--ink2)}
+.warn{background:var(--rose-soft);border:1px solid #eccbc6;color:#8a2d20;border-radius:12px;padding:11px 13px;font-size:12.5px;line-height:1.55;margin:10px 0}
+.info{background:var(--sky-soft);border:1px solid #cfe0ef;color:#245a86;border-radius:12px;padding:11px 13px;font-size:12.5px;line-height:1.55;margin:10px 0}
+.ok{background:var(--green-soft);border:1px solid #c6e2d8;color:#1f5745;border-radius:12px;padding:11px 13px;font-size:12.5px;line-height:1.55;margin:10px 0}
+.toast{position:fixed;left:50%;bottom:calc(96px + var(--safe-b));transform:translateX(-50%) translateY(20px);
+  background:var(--ink);color:#fff;padding:11px 18px;border-radius:99px;font-size:13.5px;font-weight:600;
+  z-index:80;opacity:0;transition:.25s;pointer-events:none;box-shadow:var(--shadow)}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+.viewer{position:fixed;inset:0;background:#000;z-index:90;display:none;align-items:center;justify-content:center}
+.viewer.on{display:flex}.viewer img{max-width:100%;max-height:100%}
+.viewer .close{position:absolute;top:calc(var(--safe-t) + 12px);right:16px;color:#fff;font-size:28px;width:40px;height:40px}
+select.inp{-webkit-appearance:none;appearance:none;padding-right:30px;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path d='M2 4l4 4 4-4' stroke='%238B948F' stroke-width='1.6' fill='none' stroke-linecap='round'/></svg>");
+  background-repeat:no-repeat;background-position:right 11px center}
+.ck{display:flex;align-items:flex-start;gap:11px;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;padding:13px;margin-bottom:9px;box-shadow:var(--shadow);width:100%;text-align:left}
+.ck .box{width:24px;height:24px;border-radius:7px;border:2px solid var(--line);flex:none;display:flex;
+  align-items:center;justify-content:center;color:#fff;font-size:14px;margin-top:1px}
+.ck.done .box{background:var(--green);border-color:var(--green)}
+.ck.done b{text-decoration:line-through;color:var(--muted)}
+.ck .ci{flex:1;min-width:0}
+.ck .ci b{font-size:14.5px;display:block}
+.ck .ci span.nt{font-size:12px;color:var(--muted);display:block;margin-top:3px;line-height:1.45}
+.ck .meta2{display:flex;flex-wrap:wrap;gap:6px;margin-top:7px;align-items:center}
+.ck .due{font-size:10.5px;font-weight:800;padding:3px 8px;border-radius:99px;background:var(--gold-soft);color:#7a4f0f}
+.ck .due.hot{background:var(--rose-soft);color:#8a2d20}
+.ck .prc{font-size:10.5px;font-weight:800;padding:3px 8px;border-radius:99px;background:var(--green-soft);color:#1f5745}
+.buybtn{font-size:11px;font-weight:800;padding:4px 10px;border-radius:99px;background:var(--ink);color:#fff}
+</style>
+</head>
+<body>
+<div class="app" id="app"></div>
+<div class="fab" id="fab" onclick="Chat.open()">💬</div>
+<nav class="tabs" id="tabs"></nav>
+<div class="scrim" id="scrim" onclick="closeSheets()"></div>
+<div class="sheet" id="sheet"><div class="grip"></div><div class="sc" id="sheetBody"></div></div>
+<div class="sheet chat-sheet" id="chatSheet"><div class="grip"></div><div class="sc" id="chatBody" style="display:flex;flex-direction:column;padding-top:2px"></div></div>
+<div class="viewer" id="viewer" onclick="this.classList.remove('on')"><span class="close">✕</span><img id="viewerImg" alt=""></div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============================================================
+   DEPOLAMA
+   ============================================================ */
+const Store=(()=>{
+  let mem={}; let ok=true;
+  try{const k='__t';localStorage.setItem(k,'1');localStorage.removeItem(k);}catch(e){ok=false;}
+  const P='bcn_';
+  function get(k,d){try{if(ok){const v=localStorage.getItem(P+k);return v==null?d:JSON.parse(v);}}catch(e){}
+    return (P+k) in mem?mem[P+k]:d;}
+  function set(k,v){try{if(ok){localStorage.setItem(P+k,JSON.stringify(v));return;}}catch(e){}mem[P+k]=v;}
+  return {get,set,persistent:ok};
+})();
+
+/* Sabitlenen gerçek bilgiler — Kurulum ekranından değiştirilebilir */
+const DEFAULTS={
+  hotelName:"Best Western Premier Hotel Dante",
+  hotelAddr:"Carrer de Mallorca 181, 08036 Barcelona",
+  hotelPhone:"+34934411111",
+  flightIn:"PC1091 · SAW 10:05 → BCN 11:45 · Terminal 2",
+  flightOut:"PC1092 · BCN 12:45 → SAW 18:20 · Terminal 2"
+};
+function CFG(){return Store.get('cfg',{});}
+function cfg(k,d){const c=CFG();
+  if(c[k]!=null&&c[k]!=='')return c[k];
+  if(DEFAULTS[k]!=null)return DEFAULTS[k];
+  return d;}
+function setCfg(k,v){const c=CFG();c[k]=v;Store.set('cfg',c);}
+
+/* ============================================================
+   GEZİ VERİSİ
+   ============================================================ */
+const TRIP_START=new Date(2026,11,29); // 29 Aralık 2026
+const LAST=5;
+const BCN={lat:41.3874,lng:2.1686,name:"Barselona"};
+function q(s){return "https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(s);}
+function hotelQ(){return cfg('hotelAddr');}
+
+/* ============================================================
+   BAĞLANTI AÇMA — GoodReader / yerel dosya uyumlu
+   Yerel dosyada (file://) yeni sekme açılamaz; bu yüzden harita
+   ve site bağlantıları bir seçim penceresine yönlendirilir.
+   ============================================================ */
+const LOCALFILE=(location.protocol==='file:');
+let PENDING_COPY='';
+
+/* onclick özniteliğine güvenli metin gömme */
+function jattr(s){
+  return String(s==null?'':s)
+    .replace(/\\/g,'\\\\').replace(/'/g,"\\'")
+    .replace(/&/g,'&amp;').replace(/"/g,'&quot;')
+    .replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function openMap(qs){ openLink(q(qs), qs, true); }
+function openWeb(url){ openLink(url, url, false); }
+function openLink(url,label,isMap){
+  if(!LOCALFILE){
+    try{ const w=window.open(url,'_blank'); if(w) return; }catch(e){}
+  }
+  linkSheet(url,label,isMap);
+}
+function linkSheet(url,label,isMap){
+  PENDING_COPY = isMap?label:url;
+  const apple='maps://?q='+encodeURIComponent(label);
+  const gmap='comgooglemaps://?q='+encodeURIComponent(label);
+  openSheet(`
+    <div class="sh-hd"><div class="em">${isMap?'📍':'🌐'}</div><div>
+      <h3>${isMap?'Haritada aç':'Siteyi aç'}</h3>
+      <div class="du">${esc(String(label).slice(0,70))}</div></div></div>
+    <div class="info">Dosya telefonda yerel olarak açıldığı için bağlantılar kendiliğinden açılmıyor. Aşağıdakileri sırayla deneyin.</div>
+    <div class="acts">
+      ${isMap?`<a class="act wide" href="${esc(apple)}"><span class="e">🍎</span>Apple Haritalar'da aç</a>
+      <a class="act wide" href="${esc(gmap)}"><span class="e">🗺️</span>Google Haritalar uygulamasında aç</a>`:''}
+      <button class="act pri wide" onclick="copyPending()"><span class="e">📋</span>${isMap?'Adresi kopyala':'Bağlantıyı kopyala'}</button>
+      <a class="act wide" href="${esc(url)}"><span class="e">🧭</span>Bu pencerede aç</a>
+    </div>
+    <div class="sec-l">Elle kopyalamak için</div>
+    <div class="field"><div style="font-size:14px;line-height:1.5;user-select:text;-webkit-user-select:text;word-break:break-all">${esc(isMap?label:url)}</div></div>
+    <p class="hint">“Bu pencerede aç” uygulamadan çıkar; geri dönmek için dosyayı yeniden açın. Kalıcı çözüm: Daha → Bağlantılar açılmıyor.</p>
+  `);
+}
+function copyPending(){
+  const t=PENDING_COPY; let ok=false;
+  try{
+    const ta=document.createElement('textarea');
+    ta.value=t; ta.style.position='fixed'; ta.style.top='0'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.focus(); ta.select();
+    try{ta.setSelectionRange(0,99999);}catch(e){}
+    ok=document.execCommand('copy'); document.body.removeChild(ta);
+  }catch(e){}
+  if(!ok){ try{ navigator.clipboard.writeText(t); ok=true; }catch(e){} }
+  toast(ok?'Kopyalandı — Haritalar uygulamasına yapıştırın':'Kopyalanamadı — metni elle seçin');
+}
+
+const DAYS=[
+ {n:1,date:"29 Ara",dow:"Sal",title:"Varış & Eixample",sub:"PC1091 · T2 · oda 15:00'ten sonra",
+  acts:[
+   {id:"1a",t:"11:45",em:"✈️",title:"BCN Terminal 2'ye iniş",sub:"PC1091 · pasaport + bagaj ~45–60 dk",dur:"45–60 dk",
+    ticket:"⚠️ Pegasus Barselona'da TERMİNAL 2 kullanır — T1 değil.\nBu bizim lehimize: Rodalies tren istasyonu (Aeroport) T2'nin yanında, yürüyüş köprüsüyle bağlı. T1'de böyle bir tren yok.",
+    q:"Barcelona El Prat Airport Terminal 2"},
+   {id:"1b",t:"12:50",em:"🚆",title:"R2 Nord treni → Barcelona Sants",
+    sub:"T2'den yürüyerek · 19 dk · yarım saatte bir",dur:"25 dk",
+    ticket:"T2 varış katından üst geçitle Aeroport istasyonuna yürüyün (~7 dk).\nR2 Nord hattı, Barcelona Sants yönü. Sefer aralığı ~30 dk.\n✅ T-familiar / T-casual bu trende GEÇERLİ (metro L9'un havaalanı istasyonlarının aksine). İlk iş: istasyondaki makineden T-familiar alın.\nTek bilet 2,90 €.",
+    web:"https://rodalies.gencat.cat/en",q:"Aeroport T2 Rodalies station Barcelona"},
+   {id:"1c",t:"13:20",em:"🚇",title:"L5 Sants Estació → Hospital Clínic",sub:"2 durak · 75 dk içinde aktarma = aynı yolculuk",dur:"10 dk",
+    note:"Sants'ta Rodalies peronundan metroya geçiş aynı bina içinde, asansör var. Hospital Clínic çıkışından otele 250 m.",
+    q:"Hospital Clinic metro station Barcelona"},
+   {id:"1d",t:"13:45",em:"🏨",title:"Otele var — bagajı bırak",sub:"⚠️ Oda 15:00'ten önce hazır değil",dur:"20 dk",cfgQ:"hotel",
+    ticket:"Check-in saati 15:00. Resepsiyona bavulları bırakın, öğle yemeğine çıkın.\nCarrer de Mallorca 181 · Metro: Hospital Clínic (L5) 250 m, Urgell (L1) 600 m."},
+   {id:"1e",t:"14:10",em:"🍽️",title:"Öğle — Cervecería Catalana",sub:"Mallorca 236 · otelden 7 dk yürüme",dur:"1,5 s",
+    note:"Aynı sokakta, doğuya doğru. Rezervasyon almıyor; 14:00 İspanya'da öğle için erken sayılır, yer bulursunuz.\nAlternatif: otelin kendi lobi barı (Akdeniz mutfağı).",
+    q:"Cerveceria Catalana Mallorca 236 Barcelona"},
+   {id:"1f",t:"15:40",em:"🏨",title:"Check-in ve yerleşme",sub:"Odalar hazır · bir saat dinlenin",dur:"50 dk",cfgQ:"hotel"},
+   {id:"1g",t:"16:40",em:"🏛️",title:"Passeig de Gràcia'ya yürüyüş",sub:"La Pedrera 11 dk · Casa Batlló 13 dk",dur:"1 s",
+    note:"Mallorca caddesinden doğuya yürüyün — düz yol, 900 m sonra La Pedrera'nın köşesindesiniz. İçini 1 Ocak'ta gezeceğiz; şimdi sadece cepheler ve ışıklar.",
+    q:"La Pedrera Casa Mila Barcelona"},
+   {id:"1h",t:"17:40",em:"🎄",title:"Plaça Catalunya & Portal de l'Àngel",sub:"Noel ışıkları · yürüyüş caddesi",dur:"40 dk",q:"Portal de l'Angel Barcelona"},
+   {id:"1i",t:"18:20",em:"🥬",title:"La Rambla → La Boqueria",sub:"Pazar 20:30'a kadar açık",dur:"50 dk",
+    ticket:"Boqueria: 08:00–20:30. Pazar günleri ve resmî tatillerde KAPALI → 1 Ocak ve 3 Ocak kapalı. Bu akşam, 30 Aralık ve 2 Ocak açık.",
+    q:"Mercat de la Boqueria Barcelona"},
+   {id:"1j",t:"19:15",em:"🏰",title:"Gotik Mahalle akşam turu",sub:"Pl. Reial · Carrer del Bisbe · Katedral meydanı",dur:"1,5 s",q:"Placa Reial Barcelona"},
+   {id:"1k",t:"20:45",em:"🍽️",title:"Akşam — Els Quatre Gats",sub:"Montsió 3 · Picasso'nun uğrağı",dur:"1,5 s",tag:"book",
+    note:"Plaça Catalunya'nın hemen yanında. Dönüş: L1 Catalunya → Urgell (3 durak) + 600 m yürüme.\nAlternatif: Bar del Pla (Born) · Can Culleretes (1786).",
+    q:"Els Quatre Gats Barcelona"}
+  ]},
+ {n:2,date:"30 Ara",dow:"Çar",title:"Gaudí Günü",sub:"Sagrada Família → Sant Pau → Park Güell → Gràcia",
+  acts:[
+   {id:"2a",t:"08:15",em:"☕",title:"Otelde kahvaltı",sub:"Günün en kritik randevusu sabah",dur:"30 dk",cfgQ:"hotel"},
+   {id:"2b",t:"08:45",em:"🚇",title:"L5 Hospital Clínic → Sagrada Família",sub:"DİREKT · 5 durak · ~12 dk",dur:"20 dk",
+    ticket:"✅ Otelin en büyük avantajı: L5 hattı Sagrada Família'ya aktarmasız gidiyor.\nOtelden metroya 250 m, metroda 12 dk, istasyondan bazilikaya 2 dk.\nBilet saatinden 15 dk önce kapıda olun.",
+    q:"Sagrada Familia metro station Barcelona"},
+   {id:"2c",t:"09:15",em:"⛪",title:"SAGRADA FAMÍLIA + Kule",sub:"Nativity kulesi · ~2 saat",dur:"1,5–2 s",cfgTime:"tSagrada",tag:"book",
+    ticket:"RESMÎ FİYATLAR (bilet sisteminden doğrulandı):\n• Temel 26 € · Kuleli 36 € · Rehberli 30 € · Rehberli+kule 40 €\n• 30 YAŞ ALTI 24 € → oğlunuz bu tarifeden\n• Sipariş başına en fazla 6 bilet\n⚠️ Bilet ADA YAZILI — girişte fotoğraflı kimlik, indirimli tarifede belge.\n⚠️ Gişe YOK, sadece online.\n⚠️ Saat diliminin 15 dk içinde girilmeli.\n09:00–10:00 sessiz saat: kulaklık zorunlu — 09:15 dilimi bu kurala giriyor.\nKış saatleri: Pzt–Cmt 09:00–18:00.",
+    web:"https://tickets.sagradafamilia.org/en/",q:"Sagrada Familia Barcelona"},
+   {id:"2d",t:"11:30",em:"🏥",title:"Sant Pau Modernist Alanı",sub:"Sagrada Família'dan 10 dk yürüme",dur:"1 s",tag:"opt",
+    ticket:"Giriş ~18 € (yaklaşık), gençlere indirim var. Domènech i Montaner'in hastane-şehri.\nAvinguda Gaudí boyunca düz yürüyüş — iki yapı arasındaki aks Gaudí yılının en güzel 10 dakikası.",
+    web:"https://www.santpaubarcelona.org/en",q:"Recinte Modernista de Sant Pau Barcelona"},
+   {id:"2e",t:"12:45",em:"🍽️",title:"Öğle — Avinguda Gaudí terasları",sub:"Sant Pau ile Sagrada arası",dur:"1 s",q:"Avinguda de Gaudi Barcelona"},
+   {id:"2f",t:"14:15",em:"🚌",title:"92 numaralı otobüs → Park Güell",sub:"Sant Pau'dan direkt bağlantı",dur:"25 dk",
+    note:"Alternatif: metro L5 → L3 Lesseps + 15 dk yokuş yürüyüş. Otobüs sizi üst kapıya daha yakın bırakır.",
+    q:"Park Guell Barcelona"},
+   {id:"2g",t:"15:15",em:"🦎",title:"PARK GÜELL — Anıtsal Bölge",sub:"Mozaik teras + şehir manzarası",dur:"1,5 s",cfgTime:"tGuell",tag:"book",
+    ticket:"2026: tam 18 €, 7–12 yaş 13,50 €. 16 yaş TAM öder → 3 kişi 54 €.\nBilet ada yazılı, işlem başına en fazla 7 bilet.\nRezervasyon 3 AY öncesine kadar açık — bu bilet şimdi alınabilir.\nKış saatleri 09:30–17:30, son giriş 17:00. Yılın her günü açık.",
+    web:"https://parkguell.barcelona/en",q:"Park Guell Barcelona"},
+   {id:"2h",t:"17:00",em:"🚶",title:"Gràcia'ya iniş",sub:"Plaça de la Vila · Plaça del Sol",dur:"1 s",q:"Placa de la Vila de Gracia Barcelona"},
+   {id:"2i",t:"20:00",em:"🍽️",title:"Akşam — Gràcia",sub:"La Pubilla veya Bar Bodega Quimet",dur:"1,5 s",
+    note:"Dönüş: L3 Fontana → Diagonal, sonra 900 m yürüme. Yorgunsanız Gràcia'yı atlayıp otele dönün; Cervecería Catalana 7 dk mesafede.",
+    q:"La Pubilla Gracia Barcelona"}
+  ]},
+ {n:3,date:"31 Ara",dow:"Per",title:"Gotik & Yılbaşı Gecesi",sub:"Gündüz eski şehir · gece Montjuïc",
+  acts:[
+   {id:"3a",t:"08:30",em:"🛒",title:"Markete uğra",sub:"1 Ocak için su, kahvaltılık, atıştırmalık",dur:"30 dk",
+    note:"⚠️ 1 Ocak'ta İspanya'da market bulamazsınız. Otel çevresinde Mercadona / Condis var. Bu 20 dakika yarınki günü kurtarır.",
+    q:"supermercado Carrer Mallorca Barcelona"},
+   {id:"3b",t:"09:40",em:"⛪",title:"Barselona Katedrali",sub:"Kloster, 13 kaz, çatı terası",dur:"1 s",
+    ticket:"Kültürel ziyaret ~11 € + çatı ~3 € (resmî site). Yeniden satıcılar 16–19 € ister.\nOmuz ve dizler kapalı olmalı.\n⚠️ 31 Aralık'ta erken kapanabilir — o sabah kontrol edin.",
+    web:"https://catedralbcn.org",q:"Catedral de Barcelona"},
+   {id:"3c",t:"11:00",em:"🏛️",title:"Gotik Mahalle derin tur",sub:"Plaça del Rei · Roma duvarı · Pl. Sant Jaume",dur:"1 s",q:"Placa del Rei Barcelona"},
+   {id:"3d",t:"12:15",em:"🎨",title:"El Born + Picasso Müzesi",sub:"Santa Maria del Mar · Carrer Montcada",dur:"1,5 s",tag:"tbc",
+    ticket:"Daimi koleksiyon 12 €/yetişkin. 18 YAŞ ALTI ÜCRETSİZ — ama oğlunuz için de ayrıca 0 €'lık zaman dilimi rezervasyonu şart, yoksa içeri alınmıyor.\n3 kişi = 24 €.\n⚠️ 31 Aralık kapanış saatini o hafta doğrulayın; genelde 14:30–15:00.",
+    web:"https://www.museupicasso.bcn.cat/en",q:"Museu Picasso Barcelona"},
+   {id:"3e",t:"14:00",em:"🍽️",title:"Büyük öğle yemeği — Cal Pep",sub:"Bugünün ana öğünü bu",dur:"1,5 s",
+    note:"Cal Pep bar kısmı rezervasyon almıyor, sıraya giriliyor — 13:45'te kapıda olun. Alternatif: Bodega La Puntual (rezerve edilebilir).\n31 Aralık'ta öğle servisi normal; akşam gala menüsüne döner.",
+    q:"Cal Pep Barcelona"},
+   {id:"3f",t:"16:00",em:"🌳",title:"Arc de Triomf + Ciutadella",sub:"Geniş promenad · şelale çeşmesi",dur:"1 s",q:"Arc de Triomf Barcelona"},
+   {id:"3g",t:"17:30",em:"😴",title:"Otele dön ve dinlen",sub:"Gece çok geç bitecek — bu mola şart",dur:"2 s",cfgQ:"hotel",
+    note:"Dönüş: L1 Arc de Triomf → Urgell (direkt, 5 durak) + 600 m yürüme."},
+   {id:"3h",t:"19:30",em:"🥂",title:"Hafif erken yemek",sub:"Otel lobi barı veya Cervecería Catalana",dur:"1 s",tag:"book",
+    note:"Gala menüsü 21:00'de başlar ve gösteriye yetişemezsiniz. Önerim: hafif erken yemek, gösteri, sonra gece atıştırması.\nOtelin lobi barı Akdeniz mutfağı servis ediyor — 31 Aralık'ta açık mı, rezervasyon sırasında sorun."},
+   {id:"3i",t:"21:30",em:"🚇",title:"L1 Urgell → Espanya",sub:"DİREKT · 3 durak · erken gidin",dur:"25 dk",
+    ticket:"✅ Otelden Espanya'ya aktarmasız: Urgell (L1) → Espanya, 3 durak.\n⚠️ Plaça d'Espanya 20:30 civarı yeni girişlere kapanabilir — 21:30 çıkış sınırda. Kalabalık erken toplanıyorsa 21:00'de çıkın.\nMetro 31 Aralık 05:00'ten 1 Ocak gece yarısına kadar KESİNTİSİZ çalışır (2025 uygulaması).",
+    q:"Urgell metro station Barcelona"},
+   {id:"3j",t:"22:10",em:"📍",title:"Av. Reina Maria Cristina'da yer tut",sub:"Sihirli Çeşme'ye bakan taraf",dur:"1,5 s",
+    note:"Buluşma noktası belirleyin. Oğlunuzun telefonu şarjlı olsun ve otel adresini bilsin. Yankesicilik bu gece zirvede — çanta ön tarafta.",
+    q:"Avinguda de la Reina Maria Cristina Barcelona"},
+   {id:"3k",t:"23:50",em:"🎆",title:"YIL SONU GÖSTERİSİ",sub:"Drone + havai fişek + 12 çan",dur:"25 dk",tag:"tbc",
+    ticket:"Ücretsiz, biletsiz, kapasite sınırlı.\n2025 gösterisi 23:50–00:10 arası sürdü; ardından kalabalığı seyreltmek için 45 dk müzik çalındı.\n⚠️ 2026–27 programı henüz açıklanmadı — Aralık ortasında barcelona.cat/nadal'dan doğrulayın.",
+    web:"https://www.barcelona.cat/nadal",q:"Font Magica de Montjuic Barcelona"},
+   {id:"3l",t:"00:30",night:true,em:"🚇",title:"Dönüş — acele etmeyin",sub:"Rocafort'a yürüyün, L1 ile dönün",dur:"45 dk",
+    note:"Espanya çıkışı tıkanır. Gran Via boyunca doğuya 10–15 dk yürürseniz Rocafort (L1) istasyonuna varırsınız — oradan Urgell sadece 1 durak.\nMetro sabaha kadar açık.",
+    q:"Rocafort metro station Barcelona"}
+  ]},
+ {n:4,date:"1 Oca",dow:"Cum",title:"Yeni Yıl Günü",sub:"Geç başlangıç · çoğu yer kapalı",
+  acts:[
+   {id:"4a",t:"10:30",em:"☕",title:"Geç kahvaltı",sub:"Otelde — dışarısı büyük ölçüde kapalı",dur:"1 s",cfgQ:"hotel"},
+   {id:"4b",t:"11:15",em:"🚶",title:"La Pedrera'ya yürüyüş",sub:"Otelden 900 m · 11 dk",dur:"15 dk",
+    note:"Mallorca caddesinden doğuya düz yürüyün. 1 Ocak sabahı şehir bomboş olur — yılın en güzel yürüyüşü.",
+    q:"La Pedrera Casa Mila Barcelona"},
+   {id:"4c",t:"11:30",em:"🪨",title:"LA PEDRERA (Casa Milà)",sub:"1 Ocak'ta 11:00'de açılıyor",dur:"1,5 s",cfgTime:"tPedrera",tag:"book",
+    ticket:"✅ RESMÎ SİTEDEN DOĞRULANDI: 26 Ara 2026 – 3 Oca 2027 özel saatler 09:00–20:30; 1 Ocak 2027 istisna 11:00–20:30.\nEssential bilet: online 25 € / gişe 29 €. 12–17 YAŞ 12,50 € → 3 kişi 62,50 €.\nOnline alın: gişede işlem ücreti var ve ayrı giriş kapısı kullanılıyor.\nYağmur varsa çatı terası kapanabilir.",
+    web:"https://www.lapedrera.com/en/tickets/",q:"La Pedrera Casa Mila Barcelona"},
+   {id:"4d",t:"13:15",em:"🚶",title:"Passeig de Gràcia sessiz yürüyüş",sub:"Casa Batlló cephesi · boş cadde",dur:"45 dk",q:"Passeig de Gracia Barcelona"},
+   {id:"4e",t:"14:15",em:"🍽️",title:"Öğle — REZERVASYONLU",sub:"1 Ocak'ta doğaçlama yemek aramayın",dur:"1,5 s",tag:"book",
+    note:"En güvenli seçenek otelin kendi restoranı — rezervasyon sırasında 1 Ocak'ta servis var mı diye sorun ve masa ayırtın.\nİkinci seçenek: Passeig de Gràcia çevresindeki büyük brasserie'ler (El Nacional dahil) — Aralık başında ayırtın."},
+   {id:"4f",t:"16:15",em:"🌊",title:"Barceloneta sahil yürüyüşü",sub:"L1 Urgell → Urquinaona → L4 Barceloneta",dur:"1,5 s",q:"Barceloneta Beach Barcelona"},
+   {id:"4g",t:"17:30",em:"🎡",title:"Nadal al Port — Moll de la Fusta",sub:"Dönme dolap, buz pisti, fuar",dur:"1 s",tag:"tbc",
+    note:"2025–26 sezonunda 6 Ocak'a kadar açıktı. 2026–27 için henüz açıklanmadı — Aralık ortasında kontrol edin.",
+    q:"Moll de la Fusta Barcelona"},
+   {id:"4h",t:"19:00",em:"✨",title:"Işık yürüyüşü",sub:"Rambla Catalunya → otele doğru",dur:"1 s",q:"Rambla de Catalunya Barcelona"},
+   {id:"4i",t:"20:45",em:"🍽️",title:"Akşam — REZERVASYONLU",sub:"Yine önceden ayarlanmış olmalı",dur:"1,5 s",tag:"book"}
+  ]},
+ {n:5,date:"2 Oca",dow:"Cmt",title:"Casa Batlló & Montjuïc",sub:"Sabah Gaudí · öğleden sonra tepede",
+  acts:[
+   {id:"5a",t:"08:40",em:"🚶",title:"Casa Batlló'ya yürüyüş",sub:"Otelden 1 km · 13 dk",dur:"15 dk",q:"Casa Batllo Barcelona"},
+   {id:"5b",t:"09:00",em:"🐉",title:"CASA BATLLÓ",sub:"İlk saat · Ejderha Terası için Silver+",dur:"1,5 s",cfgTime:"tBatllo",tag:"book",
+    ticket:"Her gün 09:00–22:30 açık (ilk giriş 09:00, son giriş 19:45).\nDİNAMİK FİYAT — erken alan kazanır (resmî site: kişi başı 15 €'ya kadar tasarruf).\n• General Visit 29 €'dan başlar (çatı kademesine göre değişir)\n• 13–17 YAŞ: her kademede 6 € İNDİRİM\n• 12 yaş altı ücretsiz\n⚠️ Ocak 2025'ten beri Ejderha Terası en düşük kademeye dahil değil — çatı istiyorsanız üst kademeyi alın.\n💡 Alternatif: 'Be the First' 08:30 sabah ziyareti 45 € (çatı dahil, az kalabalık, fotoğraf için en iyisi).",
+    web:"https://www.casabatllo.es/en/online-tickets/",q:"Casa Batllo Barcelona"},
+   {id:"5c",t:"10:45",em:"⚽",title:"Spotify Camp Nou (opsiyonel)",sub:"Müze + 360° oda + inşaat seyir terası",dur:"2,5 s",tag:"opt",
+    ticket:"Barça Immersive Tour ~28–40 € (yaklaşık, kademeye göre). Klasik saha/soyunma odası turu Espai Barça inşaatı nedeniyle kapalı.\n⚠️ 1 ve 6 Ocak KAPALI, 2 Ocak açık.\nMaç fikstürünü kontrol edin — maç günü saatler değişir.\nUlaşım: L5 Hospital Clínic → Collblanc (direkt), sonra yürüme.",
+    web:"https://www.fcbarcelona.com",q:"Spotify Camp Nou Barcelona"},
+   {id:"5d",t:"12:40",em:"🚇",title:"L1 Urgell → Espanya",sub:"Direkt · Venedik kuleleri arasından yukarı",dur:"25 dk",q:"Placa d'Espanya Barcelona"},
+   {id:"5e",t:"13:15",em:"🍢",title:"Öğle — Carrer Blai pintxos",sub:"Çubuk başına ödeme · 16 yaş için harika",dur:"1,5 s",q:"Carrer de Blai Barcelona"},
+   {id:"5f",t:"15:00",em:"🖼️",title:"MNAC — ÜCRETSİZ SEANS",sub:"Cumartesi 15:00 sonrası herkese ücretsiz",dur:"1,5 s",tag:"book",
+    ticket:"✅ MNAC her CUMARTESİ 15:00'ten sonra ücretsiz — 2 Ocak Cumartesi. 3 kişi için 36 € tasarruf.\n⚠️ Ücretsiz seans için yine de online zaman dilimi rezervasyonu gerekiyor; kontenjan sınırlı, erken ayırtın.\nKış saatleri: Sal–Cmt 10:00–18:00. Pazartesi ve 1 Ocak kapalı.\nNormal giriş 12 €.",
+    web:"https://www.museunacional.cat",q:"MNAC Museu Nacional d'Art de Catalunya"},
+   {id:"5g",t:"16:30",em:"🚡",title:"Montjuïc teleferiği + Kale",sub:"Şehrin en iyi panoraması",dur:"1,5 s",
+    ticket:"Gidiş-dönüş ~12,60–17 € (yaklaşık). Hola Barcelona üzerinden online %10 indirim.\n⚠️ Teleferik ayrı ücretli — T-familiar geçmez. Funicular (Paral·lel → Montjuïc) ise metro biletine dahildir.",
+    web:"https://www.holabarcelona.com/",q:"Teleferic de Montjuic Barcelona"},
+   {id:"5h",t:"17:20",em:"🌅",title:"Gün batımı — liman manzarası",sub:"Aralık–Ocak'ta güneş ~17:30'da batıyor",dur:"30 dk",q:"Castell de Montjuic Barcelona"},
+   {id:"5i",t:"20:00",em:"⛲",title:"Sihirli Çeşme gösterisi",sub:"Kışın Per–Cmt ~20:00–21:00 · ücretsiz",dur:"1 s",tag:"tbc",
+    ticket:"⚠️ Çeşme kuraklık ve tadilat nedeniyle yıllarca kapalıydı, Eylül 2025'te döndü. O hafta resmî sayfadan gün ve saati doğrulayın.",
+    web:"https://www.barcelona.cat/en/what-to-do-in-bcn/magic-fountain",q:"Font Magica de Montjuic Barcelona"},
+   {id:"5j",t:"21:15",em:"🍽️",title:"Akşam — Quimet i Quimet",sub:"Ayakta montadito · rezervasyon almıyor",dur:"1,5 s",
+    note:"Poble-sec'te, çeşmeden 10 dk. Çok küçük; 21:00'de gidin.\nAlternatif: Bar Cañete (rezervasyon şart) veya Carrer Blai'ye geri dönün.\nDönüş: L3 Poble Sec → Espanya → L1 Urgell.",
+    q:"Quimet i Quimet Barcelona"}
+  ]},
+ {n:6,date:"3 Oca",dow:"Paz",title:"Dönüş",sub:"PC1092 12:45 · T2'de 09:45'te olun",
+  acts:[
+   {id:"6a",t:"07:30",em:"☕",title:"Kahvaltı + son toparlanma",sub:"Bavullar akşamdan hazır olsun",dur:"50 dk",cfgQ:"hotel"},
+   {id:"6b",t:"08:35",em:"🧳",title:"Check-out",sub:"Limit 12:00 ama biz erken çıkıyoruz",dur:"15 dk",cfgQ:"hotel"},
+   {id:"6c",t:"08:55",em:"🚕",title:"Taksi → Terminal 2",sub:"25–30 dk · ~35–40 € (3 kişi tek araç)",dur:"30 dk",
+    ticket:"ÖNERİLEN: Pazar sabahı trafik yok, kapıdan kapıya.\nHavaalanı ek ücreti 4,60 €, havaalanı minimum ücreti 21 €. Uygulama: FreeNow / Cabify.\n\nALTERNATİF (trenle, ~8 € ucuz): 08:30'da otelden çıkın → Hospital Clínic (L5) → Sants Estació → R2 Nord → Aeroport.\n⚠️ R2 Nord Pazar günü yarım saatte bir. Treni kaçırmak 30 dk kaybettirir; uçuş saati sabit. Taksi daha güvenli.",
+    q:"Barcelona El Prat Airport Terminal 2"},
+   {id:"6d",t:"09:30",em:"🛫",title:"Terminal 2'ye varış",sub:"Uçuştan ~3 saat önce",dur:"—",q:"Barcelona El Prat Airport Terminal 2"},
+   {id:"6e",t:"09:45",em:"🛂",title:"Check-in + pasaport kontrolü",sub:"Schengen dışı çıkış · yılbaşı dönüş yoğunluğu",dur:"1,5 s",
+    note:"Pegasus bagaj kuralını önceden kontrol edin. T2, T1'den küçük; yeme-içme seçeneği sınırlı."},
+   {id:"6f",t:"12:45",em:"✈️",title:"PC1092 kalkış",sub:"İstanbul SAW'a iniş 18:20",dur:"—"}
+  ]}
+];
+
+/* ---- Bilet & rezervasyon takvimi ---- */
+const BOOKINGS=[
+ {id:"b1",title:"Otel — Best Western Premier Dante",due:"TAMAM",hot:false,price:"29 Ara – 3 Oca",
+  note:"Carrer de Mallorca 181. Giriş 29 Ara 15:00 sonrası, çıkış 3 Oca 12:00 öncesi. Rezervasyon numarasını Otel ekranındaki nota yazın."},
+ {id:"b3",title:"Sagrada Família — KULE takvimini bekle",due:"1 KASIM'dan itibaren günlük",hot:true,price:"~106 € (3 kişi)",
+  url:"https://tickets.sagradafamilia.org/en/",
+  note:"25 Ekim'de kontrol edildi: TEMEL bilet (26 €) Aralık için satışta, 30 Aralık'ta 09:15–17:15 tüm dilimler açık. KULELİ bilet (36 €) için Aralık günleri henüz açılmamış — kule takvimi şu an 30 Kasım'da bitiyor. 1 Kasım'dan itibaren her gün bakın, açıldığı gün alın. 10 Kasım'a kadar açılmazsa temel bileti garantiye alın."},
+ {id:"b4",title:"Park Güell — 30 Ara 15:15 dilimi",due:"ŞİMDİ alınabilir",hot:true,price:"54 € (3 kişi)",
+  url:"https://parkguell.barcelona/en",
+  note:"Rezervasyon 3 ay öncesine kadar açık, yani takvim şu an müsait. 18 €/kişi, 16 yaş tam öder. İşlem başına en fazla 7 bilet."},
+ {id:"b6",title:"La Pedrera — 1 Oca 11:30",due:"ŞİMDİ alınabilir",hot:true,price:"62,50 € (3 kişi)",
+  url:"https://www.lapedrera.com/en/tickets/",
+  note:"Online 25 € / gişe 29 €. 12–17 yaş 12,50 €. 1 Ocak'ta 11:00'de açılıyor — resmî siteden doğrulandı."},
+ {id:"b5",title:"Casa Batlló — 2 Oca sabahı",due:"Kasım başı",hot:false,price:"~96–129 € (3 kişi)",
+  url:"https://www.casabatllo.es/en/online-tickets/",
+  note:"Dinamik fiyat, erken alan ucuza alır (kişi başı 15 €'ya kadar). Çatı için üst kademe gerekiyor. 13–17 yaş 6 € indirimli. 'Be the First' 08:30 seansı 45 € ve çatı dahil."},
+ {id:"b12",title:"Picasso Müzesi — 31 Ara, 0 €'lık genç bileti dahil",due:"Aralık başı",hot:false,price:"24 € (3 kişi)",
+  url:"https://www.museupicasso.bcn.cat/en",
+  note:"18 yaş altı ücretsiz AMA ayrı bir 0 €'lık zaman dilimi rezervasyonu şart. Üç bilet de alınmalı. 31 Aralık kapanış saatini önce doğrulayın."},
+ {id:"b13",title:"MNAC — 2 Oca Cumartesi 15:00 ücretsiz seans",due:"Aralık ortası",hot:false,price:"0 € (36 € tasarruf)",
+  url:"https://www.museunacional.cat",
+  note:"Her Cumartesi 15:00'ten sonra ücretsiz. Kontenjan sınırlı, online rezervasyon gerekiyor."},
+ {id:"b2",title:"31 Aralık akşam yemeği",due:"Kasım ortası",hot:true,
+  note:"Önerilen: 19:30'da hafif erken yemek (otel lobi barı veya Cervecería Catalana), gösteriye yetişmek için. Gala menüsü 21:00'de başlar ve geceyi kaçırtır. Otele 31 Aralık servisi var mı diye sorun."},
+ {id:"b7",title:"1 Ocak öğle + akşam yemeği",due:"Kasım ortası",hot:true,
+  note:"1 Ocak'ta restoranların çoğu kapalı. İLK SEÇENEK: otelin kendi restoranı — rezervasyon yaparken 1 Ocak'ta servis olup olmadığını sorun ve iki öğün için masa ayırtın. İkinci seçenek: Passeig de Gràcia brasserie'leri."},
+ {id:"b14",title:"Els Quatre Gats — 29 Ara 20:45",due:"Aralık başı",hot:false,
+  url:"http://4gats.com",
+  note:"Varış akşamı. Montsió 3, Plaça Catalunya'nın yanında. Telefon +34 933 024 140; OpenTable'da da var."},
+ {id:"b8",title:"Spotify Camp Nou (opsiyonel)",due:"Aralık ortası",hot:false,price:"~84–120 € (3 kişi)",
+  url:"https://www.fcbarcelona.com",
+  note:"2 Ocak sabahı. 1 Ocak kapalı. Maç fikstürünü kontrol edin."},
+ {id:"b15",title:"31 Aralık sabahı market alışverişi",due:"Gezide yapılacak",hot:false,
+  note:"1 Ocak için su, kahvaltılık, meyve. Programa 08:30'a eklendi."},
+ {id:"b10",title:"Seyahat sağlık sigortası",due:"Uçuştan önce",hot:false,
+  note:"İspanya'yı kapsadığını ve poliçe numarasını telefonda taşıdığınızı doğrulayın."},
+ {id:"b11",title:"Aralık ortası: programı doğrula",due:"10–20 Aralık",hot:false,
+  note:"Yılbaşı gecesi programı, 31 Aralık erken kapanış saatleri, metro özel tarifesi, Sihirli Çeşme günleri ve Noel fuarlarının tarihleri o zaman açıklanır."}
+];
+
+/* ---- 1 Ocak açık/kapalı ---- */
+const JAN1=[
+ {n:"La Pedrera",s:"on",d:"11:00–20:30 · resmî site doğrulandı · günün ana durağı"},
+ {n:"Sagrada Família",s:"part",d:"09:00–14:00 · (biz 30 Aralık'ta gezdik)"},
+ {n:"Park Güell",s:"on",d:"09:30–18:00 · yılın her günü açık"},
+ {n:"Casa Batlló",s:"on",d:"Her gün 09:00–22:30 · (biz 2 Ocak'ta gezeceğiz)"},
+ {n:"MNAC",s:"off",d:"Yıllık kapalı günü · resmî site doğrulandı"},
+ {n:"Picasso Müzesi",s:"off",d:"1 Ocak kapalı"},
+ {n:"Spotify Camp Nou",s:"off",d:"1 ve 6 Ocak kapalı"},
+ {n:"La Boqueria & tüm pazarlar",s:"off",d:"Resmî tatillerde kapalı"},
+ {n:"Marketler & mağazalar",s:"off",d:"İspanya resmî tatili — 31 Ara sabahı alışveriş yapın"},
+ {n:"Restoranlar",s:"part",d:"Çoğu kapalı. Otel restoranı en güvenli seçenek — önceden ayırtın"},
+ {n:"Metro",s:"on",d:"Gece boyu ve gün boyu çalışır"},
+ {n:"Otobüs",s:"part",d:"Tatil tarifesi ~07:00–23:45"},
+ {n:"Rodalies / taksi",s:"on",d:"Çalışır (dönüşümüz 3 Ocak, sorun yok)"}
+];
+
+/* ---- Ulaşım ---- */
+const FARES=[
+ {t:"T-familiar — 8 yolculuk, PAYLAŞILIR",p:"11,50 €",n:"1,44 €/yolculuk · ★ bizim ana biletimiz"},
+ {t:"Tek bilet (bitllet senzill)",p:"2,90 €",n:"1 bölge · metro, otobüs, Rodalies"},
+ {t:"T-casual — 10 yolculuk, TEK KİŞİ",p:"13,00 €",n:"1,30 €/yolculuk · paylaşılamaz"},
+ {t:"T-dia — 1 gün sınırsız, tek kişi",p:"12,00 €",n:"Bizim tempomuzda gereksiz"},
+ {t:"Havaalanı METRO bileti (L9 Sud)",p:"5,90 €",n:"Sadece metroyla gidilirse · biz treni kullanıyoruz"},
+ {t:"Aerobús A2 tek yön / gidiş-dönüş",p:"7,45 / 12,85 €",n:"T2 → Pl. Catalunya · otelimize uzak kalıyor"},
+ {t:"Taksi T2 ↔ otel",p:"~35–40 €",n:"Araç başına · dönüş için önerilen"}
+];
+
+/* ---- Yemek ---- */
+const FOOD=[
+ {em:"🍺",n:"Cervecería Catalana",a:"Mallorca 236 · otelden 7 dk",p:"30–40 €",o:"Mini burger, montadito, pimientos",r:false,q:"Cerveceria Catalana Mallorca 236 Barcelona"},
+ {em:"🏨",n:"Otel lobi barı",a:"Otelin içinde",p:"25–40 €",o:"Akdeniz mutfağı · 1 Ocak için B planı",r:true,q:"Best Western Premier Hotel Dante Barcelona"},
+ {em:"🏛️",n:"El Nacional",a:"Pg. de Gràcia 24 · 15 dk",p:"40–60 €",o:"Dört mutfak · herkes kendi seçer",r:true,q:"El Nacional Barcelona"},
+ {em:"🎨",n:"Els Quatre Gats",a:"Gotik · Montsió 3",p:"35–50 €",o:"Escalivada, botifarra, canelons",r:true,q:"Els Quatre Gats Barcelona"},
+ {em:"🍤",n:"Cal Pep",a:"Born",p:"45–65 €",o:"Barda otur, şefe bırak · sıraya gir",r:false,q:"Cal Pep Barcelona"},
+ {em:"🥂",n:"El Xampanyet",a:"Born",p:"25–35 €",o:"Hamsi + fıçıdan cava",r:false,q:"El Xampanyet Barcelona"},
+ {em:"🍢",n:"Quimet i Quimet",a:"Poble-sec",p:"25–35 €",o:"Montadito: somon–yoğurt–trüf balı",r:false,q:"Quimet i Quimet Barcelona"},
+ {em:"🍢",n:"Carrer Blai pintxos",a:"Poble-sec",p:"15–25 €",o:"Çubuklarını say, ona göre öde",r:false,q:"Carrer de Blai Barcelona"},
+ {em:"🦐",n:"Bar Cañete",a:"Raval",p:"45–60 €",o:"Kroket, Palamós karidesi, tortilla",r:true,q:"Bar Canete Barcelona"},
+ {em:"🍚",n:"7 Portes",a:"Port Vell",p:"45–60 €",o:"Parellada pilavı, siyah pirinç",r:true,q:"7 Portes Barcelona"},
+ {em:"🥘",n:"Can Solé",a:"Barceloneta",p:"50–70 €",o:"Arròs a la marinera · 1 hafta önceden",r:true,q:"Can Sole Barceloneta Barcelona"},
+ {em:"🍫",n:"Granja La Pallaresa",a:"C/ Petritxol · Gotik",p:"6–9 €",o:"Churros + koyu sıcak çikolata",r:false,q:"Granja La Pallaresa Barcelona"},
+ {em:"🍳",n:"El Quim de la Boqueria",a:"Boqueria",p:"15–25 €",o:"Küçük kalamarlı sahanda yumurta",r:false,q:"El Quim de la Boqueria Barcelona"},
+ {em:"🥞",n:"Federal Café",a:"Sant Antoni · 15 dk",p:"15–22 €",o:"Brunch, iyi kahve",r:false,q:"Federal Cafe Sant Antoni Barcelona"},
+ {em:"🐟",n:"Xiringuito Escribà",a:"Bogatell plajı",p:"40–55 €",o:"Fideuà, deniz ürünlü paella",r:true,q:"Xiringuito Escriba Barcelona"}
+];
+
+/* ---- Otelden mesafeler ---- */
+const WALKS=[
+ {n:"Hospital Clínic metro (L5)",d:"250 m · 3 dk",x:"Sagrada Família'ya DİREKT"},
+ {n:"Urgell metro (L1)",d:"600 m · 8 dk",x:"Espanya'ya DİREKT"},
+ {n:"Cervecería Catalana",d:"550 m · 7 dk",x:"Aynı sokakta"},
+ {n:"Hospital Clínic (hastane)",d:"300 m · 4 dk",x:"24 saat acil servis"},
+ {n:"La Pedrera (Casa Milà)",d:"900 m · 11 dk",x:"Mallorca caddesi boyunca düz"},
+ {n:"Casa Batlló",d:"1,0 km · 13 dk",x:""},
+ {n:"Diagonal metro (L3/L5)",d:"900 m · 11 dk",x:""},
+ {n:"Plaça Catalunya",d:"1,5 km · 18 dk",x:""},
+ {n:"La Rambla",d:"1,4 km · 17 dk",x:""},
+ {n:"Sagrada Família",d:"L5 · 12 dk",x:"Aktarmasız"}
+];
+
+const EMERGENCY={
+ consulate:{
+  name:"T.C. Barselona Başkonsolosluğu",
+  addr:"Passeig de Gràcia nº 7, 1ª · 08007 Barcelona",
+  phone:"+34933179231",
+  emergency:"+34680414283",
+  q:"Consulado General de Turquia Passeig de Gracia 7 Barcelona"
+ }
+};
+
+const GUIDE={
+ kahve:["Granja La Pallaresa (churros+çikolata, C/ Petritxol)","Federal Café (Sant Antoni)","Otelin lobi barı"],
+ yemek:["Cervecería Catalana (otelden 7 dk)","Quimet i Quimet","Els Quatre Gats","Cal Pep","Carrer Blai pintxos"],
+ market:"Süpermarket: Mercadona, Condis, Carrefour Express — otel çevresinde birkaç tane var. ⚠️ 1 Ocak'ta hepsi kapalı; 31 Aralık sabahı alışveriş programa eklendi.",
+ kapali:["Passeig de Gràcia (otelden 11 dk)","Gotik Mahalle","La Rambla","Barceloneta sahil yürüyüşü","Ciutadella Parkı"],
+ acik:["Casa Batlló","La Pedrera","Picasso Müzesi","MNAC","Camp Nou müzesi","Sagrada Família içi"],
+ oncelik:["Sagrada Família (kule dahil)","Park Güell","Casa Batlló","Gece Gotik Mahalle","La Pedrera","Montjuïc teleferiği"]
+};
+
+/* ============================================================
+   DURUM YARDIMCILARI
+   ============================================================ */
+function actTime(a){return a.cfgTime?cfg(a.cfgTime,a.t):a.t;}
+function actQ(a){return a.cfgQ==='hotel'?hotelQ():a.q;}
+function todayIndex(){
+  const now=new Date(); const s=new Date(TRIP_START); s.setHours(0,0,0,0);
+  const d=Math.floor((new Date(now.getFullYear(),now.getMonth(),now.getDate())-s)/86400000);
+  if(d<0)return 0; if(d>LAST)return LAST; return d;
+}
+function isTripLive(){const now=new Date();const s=new Date(TRIP_START);s.setHours(0,0,0,0);
+  const d=Math.floor((new Date(now.getFullYear(),now.getMonth(),now.getDate())-s)/86400000);return d>=0&&d<=LAST;}
+function doneMap(){return Store.get('done',{});}
+function isDone(id){return !!doneMap()[id];}
+function toggleDone(id){const m=doneMap();m[id]=!m[id];Store.set('done',m);}
+function dayProgress(day){const t=day.acts.length;let d=0;day.acts.forEach(a=>{if(isDone(a.id))d++;});return{d,t,pct:t?Math.round(d/t*100):0};}
+function minutes(a){const t=typeof a==='string'?a:actTime(a);const[h,m]=t.split(':').map(Number);
+  return h*60+m+((typeof a==='object'&&a.night)?1440:0);}
+function nowMin(){const n=new Date();return n.getHours()*60+n.getMinutes();}
+function nextActivity(){
+  const idx=todayIndex(); const day=DAYS[idx];
+  if(isTripLive()){
+    const nm=nowMin();
+    for(const a of day.acts){ if(minutes(a)>=nm && !isDone(a.id)) return {a,day}; }
+    for(const a of day.acts){ if(!isDone(a.id)) return {a,day}; }
+    return {a:null,day};
+  }
+  return {a:day.acts[0],day};
+}
+function greeting(){const h=new Date().getHours();return h<12?"Günaydın ☀️":h<18?"İyi günler 🌤️":"İyi akşamlar 🌙";}
+function activityById(id){for(const d of DAYS)for(const a of d.acts)if(a.id===id)return {a,d};return null;}
+function daysUntilTrip(){const s=new Date(TRIP_START);s.setHours(0,0,0,0);const n=new Date();
+  return Math.ceil((s-new Date(n.getFullYear(),n.getMonth(),n.getDate()))/86400000);}
+
+/* ============================================================
+   YÖNLENDİRİCİ
+   ============================================================ */
+let VIEW='home';
+function go(v){VIEW=v;window.scrollTo(0,0);render();}
+function render(){
+  const app=document.getElementById('app');
+  const V={home:Home,days:DaysList,map:MapView,money:Money,more:More,hotel:Hotel,
+    transport:Transport,tickets:Tickets,bookings:Bookings,jan1:Jan1,nye:NYE,food:Food,
+    emergency:Emergency,setup:Setup,help:Help};
+  if(VIEW.startsWith('day/'))app.innerHTML=DayDetail(+VIEW.split('/')[1]);
+  else app.innerHTML=(V[VIEW]||Home)();
+  renderTabs();
+  if(VIEW==='money')wireMoney();
+  if(VIEW==='map')wireMap();
+}
+
+/* ============================================================
+   EKRANLAR
+   ============================================================ */
+function Home(){
+  const idx=todayIndex(); const day=DAYS[idx]; const {d,t,pct}=dayProgress(day);
+  const {a}=nextActivity();
+  const dateStr=new Date().toLocaleDateString('tr-TR',{weekday:'long',day:'numeric',month:'long'});
+  const live=isTripLive(); const dleft=daysUntilTrip();
+  let nextHtml;
+  if(a){
+    const cd=live?countdownText(a):(dleft>0?`Geziye ${dleft} gün kaldı`:`${idx+1}. gün · ${day.date}`);
+    nextHtml=`<div class="card next">
+      <div class="lbl">Sırada</div>
+      <div class="t">${actTime(a)}</div>
+      <div class="name">${a.em} ${esc(a.title)}</div>
+      <div class="meta">${esc(a.sub||'')}</div>
+      ${cd?`<div class="cd"><i></i>${cd}</div><br>`:''}
+      ${actQ(a)?`<button class="mapbtn" onclick="openMap('${jattr(actQ(a))}')">📍 Haritada aç</button>`:''}
+    </div>`;
+  }else{
+    nextHtml=`<div class="card next"><div class="lbl">Bugün</div>
+      <div class="name" style="margin-top:10px">🎉 Bugünlük her şey tamam</div>
+      <div class="meta">${day.date} listesindeki her madde işaretlendi.</div></div>`;
+  }
+  const openB=BOOKINGS.filter(b=>!isDone(b.id)).length;
+  return `
+  <div class="top">
+    <div><div class="ki">Barselona · Yılbaşı</div>
+      <h1>${live?day.date:'29 Aralık'}</h1>
+      <div class="date">${dateStr}</div></div>
+    <div class="flag"></div>
+  </div>
+  <div class="greet">${greeting()}</div>
+  ${LOCALFILE?`<button class="setupbar" onclick="go('help')"><span class="e">⚠️</span>
+    <span style="flex:1"><b>Yerel dosya modu</b><span>Haritalar tek dokunuşla açılmaz, notlarınız kaydedilmez — nasıl düzelir?</span></span>
+    <span class="chev" style="color:#fff">›</span></button>`:''}
+  <div class="card">
+    <div class="prow"><b>Bugünün ilerlemesi</b><span class="pct">${pct}%</span></div>
+    <div class="pbar"><i style="width:${pct}%"></i></div>
+    <div class="prow"><span style="font-size:12.5px;color:var(--muted);font-weight:600">✓ ${d} / ${t} tamamlandı</span>
+      <button onclick="go('day/${idx}')" style="font-size:12.5px;color:var(--sky);font-weight:700">Günü aç →</button></div>
+  </div>
+  ${nextHtml}
+  <div id="wxCard" class="card"><div class="lbl">Hava · Barselona</div>
+    <div class="wx" style="margin-top:10px"><div><div class="temp" id="wxT">—</div>
+      <div class="desc" id="wxD">Yükleniyor…</div><div class="hilo" id="wxH"></div></div>
+    <div class="ico" id="wxI">⛅</div></div></div>
+  <div class="tiles">
+    <button class="tile" onclick="go('bookings')"><span class="e">🎟️</span><b>Biletler</b><span>${openB} madde bekliyor</span></button>
+    <button class="tile" onclick="go('transport')"><span class="e">🚆</span><b>Ulaşım</b><span>T2 · tren · T-familiar</span></button>
+    <button class="tile" onclick="go('nye')"><span class="e">🎆</span><b>Yılbaşı gecesi</b><span>31 Aralık planı</span></button>
+    <button class="tile" onclick="go('jan1')"><span class="e">🔒</span><b>1 Ocak</b><span>Açık / kapalı listesi</span></button>
+  </div>
+  <p class="hint">${Store.persistent?'İşaretleriniz, notlarınız, fotoğraflarınız ve harcamalarınız bu cihazda saklanıyor.':'⚠️ Önizleme modu: veriler kalıcı değil. Ana Ekrana Ekle (veya dosyayı Safari\'de aç) ki kayıt tutulsun.'}</p>
+  `;
+}
+
+function countdownText(a){
+  const diff=minutes(a)-nowMin();
+  if(diff<=0)return 'şu sıralar';
+  if(diff<60)return `${diff} dk sonra`;
+  const h=Math.floor(diff/60),m=diff%60;return `${h} sa ${m>0?m+' dk':''} sonra`.trim();
+}
+
+function DaysList(){
+  const idx=todayIndex();
+  let rows=DAYS.map((day,i)=>{const {pct}=dayProgress(day);const now=i===idx&&isTripLive();
+    return `<button class="dayrow ${now?'now':''}" onclick="go('day/${i}')">
+      <div class="dnum"><b>${day.n}</b><s>${day.dow}</s></div>
+      <div class="di"><b>${day.date} · ${esc(day.title)}</b><span>${esc(day.sub)}</span></div>
+      <div class="mini">${pct}%</div><div class="chev">›</div>
+    </button>`;}).join('');
+  return `<div class="top"><div><div class="ki">Plan</div><h1>6 Gün</h1>
+    <div class="date">29 Aralık 2026 – 3 Ocak 2027</div></div><div class="flag"></div></div>${rows}
+    <p class="hint">Bir güne dokunun, zaman çizelgesi açılsın. Her maddeye dokununca harita, bilet bilgisi, not ve fotoğraf alanı gelir.</p>`;
+}
+
+function DayDetail(i){
+  const day=DAYS[i]; const idx=todayIndex(); const {d,t,pct}=dayProgress(day);
+  const live=isTripLive()&&i===idx; const nm=live?nowMin():-1;
+  let items=day.acts.map((a,k)=>{
+    const done=isDone(a.id);
+    const next=live&&!done&&minutes(a)>=nm&&(k===0||day.acts.slice(0,k).every(x=>minutes(x)<nm||isDone(x.id)));
+    const isNow=live&&!done&&k<day.acts.length-1&&minutes(a)<=nm&&minutes(day.acts[k+1])>nm;
+    const cls=(done?'done ':'')+((isNow||next)?'now ':'');
+    const tag=a.tag==='opt'?`<span class="tag opt">opsiyonel</span>`:
+              a.tag==='book'?`<span class="tag book">rezervasyon</span>`:
+              a.tag==='tbc'?`<span class="tag tbc">teyit et</span>`:'';
+    return `<div class="item ${cls}">
+      <div class="rail"><div class="time">${actTime(a)}</div><div class="dot"></div><div class="line"></div></div>
+      <div class="icard" onclick="openActivity('${a.id}')">
+        <div class="em">${a.em}</div>
+        <div class="ic"><div class="ti">${esc(a.title)}${tag}</div><div class="su">${esc(a.sub||'')}</div></div>
+        <button class="check" onclick="event.stopPropagation();quickToggle('${a.id}',this)">${done?'✓':''}</button>
+      </div></div>`;
+  }).join('');
+  return `<button onclick="go('days')" style="color:var(--sky);font-weight:700;font-size:14px;margin:2px 0 12px">‹ Tüm günler</button>
+    <div class="dhdr"><div class="kd">${day.n}. gün · ${day.dow} ${day.date}</div>
+      <h2>${esc(day.title)}</h2><p>${esc(day.sub)} · ${d}/${t} tamam (${pct}%)</p></div>
+    <div class="tl">${items}</div>
+    <button class="mapbtn" style="margin-top:6px" onclick="openRoute(${i})">🗺️ Bugünün rotasını haritada aç</button>`;
+}
+
+function MapView(){
+  const idx=todayIndex(); return `
+  <div class="top"><div><div class="ki">Rotalar</div><h1>Harita</h1>
+    <div class="date">Günün duraklarını tek dokunuşla aç</div></div><div class="flag"></div></div>
+  <div class="field" style="margin-bottom:14px">
+    <div class="lbl" style="margin-bottom:8px">Gün seç</div>
+    <select id="mapDay" class="inp" style="width:100%">
+      ${DAYS.map((d,i)=>`<option value="${i}" ${i===idx?'selected':''}>${d.n}. gün · ${d.date} — ${esc(d.title)}</option>`).join('')}
+    </select></div>
+  <div id="routeBox"></div>`;
+}
+function wireMap(){const sel=document.getElementById('mapDay');const draw=()=>{
+  const i=+sel.value;const day=DAYS[i];const stops=day.acts.filter(a=>actQ(a));
+  document.getElementById('routeBox').innerHTML=`<div class="card"><div class="route">${
+    stops.map(s=>`<div class="stop"><b>${s.em} ${esc(s.title)}</b><span>${actTime(s)} · ${esc(s.sub||'')}</span></div>`).join('')
+  }</div><button class="mapbtn" style="width:100%;justify-content:center;margin-top:6px" onclick="openRoute(${i})">🗺️ Rotayı Google Maps'te aç</button></div>
+  <p class="hint">Rota otelden (Carrer de Mallorca 181) başlıyor. Duraklar arası mesafelerin çoğu yürünebilir.</p>`;
+};sel.onchange=draw;draw();}
+
+function openRoute(i){
+  const day=DAYS[i];const stops=day.acts.filter(a=>actQ(a));
+  if(stops.length<1){toast('Bu günde haritalı durak yok');return;}
+  if(stops.length===1){openMap(actQ(stops[0]));return;}
+  const pts=stops.map(s=>encodeURIComponent(actQ(s)));
+  const origin=pts[0],dest=pts[pts.length-1],way=pts.slice(1,-1).join('|');
+  let url=`https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${dest}&travelmode=transit`;
+  if(way)url+=`&waypoints=${way}`;
+  openLink(url,`${DAYS[i].date} rotası — ${stops.length} durak`,false);
+}
+
+/* ---- Bilet & rezervasyon takvimi ---- */
+function Bookings(){
+  const rows=BOOKINGS.map(b=>{const done=isDone(b.id);
+    return `<div class="ck ${done?'done':''}">
+      <button class="box" onclick="quickToggle('${b.id}');render()">${done?'✓':''}</button>
+      <span class="ci"><b>${esc(b.title)}</b><span class="nt">${esc(b.note)}</span>
+        <span class="meta2">
+          <span class="due ${b.hot?'hot':''}">${esc(b.due)}</span>
+          ${b.price?`<span class="prc">${esc(b.price)}</span>`:''}
+          ${b.url?`<button class="buybtn" onclick="openWeb('${jattr(b.url)}')">Bilet al →</button>`:''}
+        </span></span></div>`;}).join('');
+  const left=BOOKINGS.filter(b=>!isDone(b.id)).length;
+  return `<div class="top"><div><div class="ki">Önce bunlar</div><h1>Biletler</h1>
+    <div class="date">${left} madde bekliyor · geziye ${Math.max(0,daysUntilTrip())} gün</div></div><div class="flag"></div></div>
+    <div class="warn"><b>Sagrada Família ikiye bölünmüş durumda.</b> 25 Ekim'de resmî sistemden kontrol edildi: temel bilet Aralık için satışta, <b>kuleli bilet henüz açılmamış</b>. Kule takvimi 1 Kasım'dan itibaren kontrol edilmeli.</div>
+    <div class="ok"><b>Şimdi alınabilecekler:</b> Park Güell (30 Ara 15:15) ve La Pedrera (1 Oca 11:30). İkisinin takvimi de açık, fiyatlar doğrulandı.</div>
+    ${rows}
+    <div class="card"><div class="lbl">Bilet bütçesi · 3 kişi</div>
+      <table class="ftab" style="margin-top:6px">
+        <tr><td>Sagrada Família (kuleli)</td><td>~106 €</td></tr>
+        <tr><td>Park Güell</td><td>54 €</td></tr>
+        <tr><td>Casa Batlló</td><td>~96–129 €</td></tr>
+        <tr><td>La Pedrera</td><td>62,50 €</td></tr>
+        <tr><td>Picasso Müzesi</td><td>24 €</td></tr>
+        <tr><td>MNAC (Cmt ücretsiz seans)</td><td>0 €</td></tr>
+        <tr><td>Katedral + Sant Pau + teleferik</td><td>~125 €</td></tr>
+        <tr><td><b>Toplam (Camp Nou hariç)</b></td><td><b>~470 €</b></td></tr>
+      </table></div>
+    <p class="hint">İşaretledikleriniz bu cihazda saklanır. Bilet aldıkça saat dilimlerini Kurulum ekranına girin — zaman çizelgesi kendini günceller.</p>`;
+}
+
+/* ---- 1 Ocak ---- */
+function Jan1(){
+  const rows=JAN1.map(x=>`<div class="oc"><div class="ocn"><b>${esc(x.n)}</b><span>${esc(x.d)}</span></div>
+    <span class="badge ${x.s}">${x.s==='on'?'AÇIK':x.s==='off'?'KAPALI':'KISMEN'}</span></div>`).join('');
+  return `<button onclick="go('more')" style="color:var(--sky);font-weight:700;font-size:14px;margin:2px 0 12px">‹ Daha</button>
+  <div class="dhdr"><div class="kd">1 Ocak 2027 · Cuma</div><h2>Açık / Kapalı</h2>
+    <p>Yeni yıl gününde hiçbir şeyi varsaymayın.</p></div>
+  <div class="card">${rows}</div>
+  <div class="warn"><b>Günün mantığı:</b> geç kalkın → La Pedrera (otelden 11 dk yürüme) → rezervasyonlu öğle → Barceloneta sahili → rezervasyonlu akşam.<br><br>
+  <b>31 Aralık sabahı markete uğrayın</b> — programa eklendi. Su, kahvaltılık, meyve. 1 Ocak'ta market bulunmaz.</div>
+  <p class="hint">"Doğrulandı" yazan satırlar resmî sitelerden alındı. Diğerleri geçmiş yıl uygulamasına dayanıyor; Aralık ortasında tekrar kontrol edin.</p>`;
+}
+
+/* ---- Yılbaşı gecesi ---- */
+function NYE(){
+  return `<button onclick="go('more')" style="color:var(--sky);font-weight:700;font-size:14px;margin:2px 0 12px">‹ Daha</button>
+  <div class="dhdr"><div class="kd">31 Aralık 2026</div><h2>Yılbaşı Gecesi</h2>
+    <p>Avinguda de la Reina Maria Cristina · Montjuïc</p></div>
+  <div class="ok"><b>Otelinizin avantajı:</b> Urgell (L1) istasyonundan Espanya'ya <b>aktarmasız 3 durak</b>. Dönüşte Rocafort'a yürüyüp L1 ile tek durakta otele dönebilirsiniz — kalabalığın tersine.</div>
+  <div class="warn"><b>2026–27 programı henüz açıklanmadı.</b> Belediye Noel programını Kasım ortasında, gece detaylarını Aralık sonunda yayımlıyor. Aşağıdakiler 2025–26 uygulamasıdır ve büyük olasılıkla tekrarlanır.</div>
+  <div class="card"><div class="lbl">Gösteri</div>
+    <p style="font-size:14px;line-height:1.6;margin:8px 0 0">Groupe F yapımı; havai fişek, <b>500 drone</b>, projeksiyon ve özgün müzik. 2025'te <b>23:50–00:10</b> arası sürdü, gece yarısı 12 çan ve üzüm geleneği, ardından kalabalığı seyreltmek için <b>45 dakika müzik</b> çalındı. <b>Ücretsiz ve biletsiz</b>, kapasite sınırlı.</p></div>
+  <div class="card"><div class="lbl">Kritik saatler</div>
+    <table class="ftab" style="margin-top:8px">
+      <tr><td>19:00</td><td>Reina Maria Cristina çevresinde trafik kesilir</td></tr>
+      <tr><td>20:30</td><td>Plaça d'Espanya yeni girişlere kapanabilir</td></tr>
+      <tr><td>21:30</td><td><b>Urgell'den metroya binin</b> (kalabalıksa 21:00)</td></tr>
+      <tr><td>22:10</td><td><b>Yerinizi almış olun</b></td></tr>
+      <tr><td>23:40</td><td>Gran Via orta şerit çıkış için kesilir</td></tr>
+      <tr><td>23:50</td><td>Gösteri başlar</td></tr>
+    </table></div>
+  <div class="card"><div class="lbl">Ulaşım</div>
+    <p style="font-size:14px;line-height:1.6;margin:8px 0 0">Metro <b>31 Aralık 05:00'ten 1 Ocak gece yarısına kadar kesintisiz</b> çalışır (≈43 saat). 21:00'den sonra L1 ve L3'te sefer aralığı ~4 dakikaya iner.<br><br>
+    <b>Giriş:</b> Urgell → Espanya (L1, 3 durak).<br>
+    <b>Çıkış:</b> Espanya'ya girmeyin — Gran Via boyunca doğuya 10–15 dk yürüyüp <b>Rocafort</b> (L1) istasyonundan binin. Otelinize 1 durak.</p></div>
+  <div class="card"><div class="lbl">Alternatifler</div>
+    <p style="font-size:14px;line-height:1.6;margin:8px 0 0">• <b>Poble Espanyol</b> yılbaşı partisi (~55 €'dan başlar; 18 yaş kuralını sorun)<br>
+    • Otel/restoran <b>gala yemeği</b> (21:00–01:00) — ama gösteriyi kaçırtır<br>
+    • Kalabalıktan uzak izleme: MNAC merdivenleri veya mahalle meydanları</p></div>
+  <div class="warn"><b>Güvenlik:</b> On binlerce kişi huni şeklinde bir caddede toplanıyor. Buluşma noktası belirleyin, oğlunuzun telefonu şarjlı olsun ve otel adresini bilsin. Yankesicilik bu gece zirve yapar. 00:30'da taksi bulmayı planlamayın.</div>
+  <button class="mapbtn" style="width:100%;justify-content:center" onclick="openWeb('https://www.barcelona.cat/nadal')">🌐 Resmî Noel programı (Aralık'ta güncellenir)</button>`;
+}
+
+/* ---- Ulaşım ---- */
+function Transport(){
+  const rows=FARES.map(f=>`<tr><td><b>${esc(f.t)}</b><br><span style="font-size:11.5px;color:var(--muted)">${esc(f.n)}</span></td><td>${esc(f.p)}</td></tr>`).join('');
+  return `<button onclick="go('more')" style="color:var(--sky);font-weight:700;font-size:14px;margin:2px 0 12px">‹ Daha</button>
+  <div class="dhdr"><div class="kd">Strateji</div><h2>Ulaşım</h2><p>Pegasus = Terminal 2 · araba yok</p></div>
+  <div class="ok"><b>Terminal 2 sizin lehinize.</b> Rodalies tren istasyonu T2'nin yanında ve <b>T-familiar bu trende geçerli</b> — metro L9'un havaalanı istasyonlarının aksine. Havaalanı transferi kişi başı 1,44 €'ya iniyor.</div>
+  <div class="card"><div class="lbl">Geliş · 29 Aralık</div>
+    <p style="font-size:14px;line-height:1.7;margin:8px 0 0">
+    <b>1.</b> T2 varış katından üst geçitle <b>Aeroport</b> istasyonuna yürüyün (~7 dk)<br>
+    <b>2.</b> Makineden <b>T-familiar</b> alın (11,50 €, 8 paylaşımlı yolculuk)<br>
+    <b>3.</b> <b>R2 Nord</b> → Barcelona Sants (19 dk, yarım saatte bir)<br>
+    <b>4.</b> <b>L5</b> Sants Estació → Hospital Clínic (2 durak)<br>
+    <b>5.</b> Otele 250 m yürüme<br><br>
+    Toplam ~55 dk, 3 kişi için <b>4,31 €</b> (tek T-familiar'dan 3 yolculuk).</p></div>
+  <div class="card"><div class="lbl">Dönüş · 3 Ocak</div>
+    <p style="font-size:14px;line-height:1.7;margin:8px 0 0">
+    <b>Taksi önerilir:</b> 08:55'te otelden, 25–30 dk, ~35–40 € (3 kişi tek araç). Pazar sabahı trafik yok.<br><br>
+    <b>Neden taksi?</b> R2 Nord Pazar günü yarım saatte bir. Treni kaçırmak 30 dakika kaybettirir ve uçuş saati sabit. 35 €'luk fark bu riski almaya değmez.<br><br>
+    <b>Trenle gidecekseniz:</b> 08:30'da otelden çıkın, tren saatini önceki akşam Rodalies uygulamasından kontrol edin.</p></div>
+  <div class="card"><div class="lbl">Şehir içi</div>
+    <p style="font-size:14px;line-height:1.7;margin:8px 0 0">
+    <b>2–3 adet T-familiar</b> yeter. Otel merkezde ve yürünecek mesafeler kısa.<br>
+    • <b>Hospital Clínic (L5)</b> 250 m — Sagrada Família'ya aktarmasız<br>
+    • <b>Urgell (L1)</b> 600 m — Espanya'ya aktarmasız<br>
+    • Passeig de Gràcia, La Pedrera, Casa Batlló: yürüme mesafesinde<br><br>
+    <b>Toplam ulaşım bütçesi ≈ 75 €</b> (3 kart + dönüş taksisi).</p></div>
+  <div class="card"><div class="lbl">2026 tarifeleri</div>
+    <table class="ftab" style="margin-top:6px">${rows}</table>
+    <p class="hint" style="margin-top:10px">2026 tarifesi 15 Ocak 2026'da yürürlüğe girdi; bir sonraki zam ~15 Ocak 2027. Tüm gezi 2026 fiyatlarıyla geçiyor.</p></div>
+  <div class="warn"><b>Karıştırmayın:</b> T-casual ve T-familiar <b>metro L9'un Aeroport T1/T2 istasyonlarında GEÇMEZ</b> (orada 5,90 €'luk özel bilet gerekir). Ama <b>Rodalies R2 Nord treninde geçerlidir</b> — biz treni kullanıyoruz. Aerobús ise tamamen ayrı bir şirket, hiçbir TMB bileti geçmez.</div>
+  <div class="callrow two" style="margin-top:12px">
+    <button class="cbtn" onclick="openWeb('https://www.tmb.cat/en/barcelona-fares-metro-bus/transport-ticket-fares')"><span class="e">🎟️</span>TMB tarifeler</button>
+    <button class="cbtn gold" onclick="openWeb('https://rodalies.gencat.cat/en')"><span class="e">🚆</span>R2 Nord saatleri</button></div>`;
+}
+
+/* ---- Yemek ---- */
+function Food(){
+  const rows=FOOD.map(f=>`<button class="lrow" onclick="openMap('${jattr(f.q)}')">
+    <div class="e">${f.em}</div>
+    <div class="li"><b>${esc(f.n)}${f.r?' <span class="tag book">rezervasyon</span>':''}</b>
+      <span>${esc(f.a)} · ${esc(f.p)} · ${esc(f.o)}</span></div><div class="chev">›</div></button>`).join('');
+  return `<button onclick="go('more')" style="color:var(--sky);font-weight:700;font-size:14px;margin:2px 0 12px">‹ Daha</button>
+  <div class="dhdr"><div class="kd">Yeme içme</div><h2>Restoranlar</h2><p>Otele yakınlık sırasına göre · fiyatlar kişi başı</p></div>
+  ${rows}
+  <div class="ok"><b>Otelin iki avantajı:</b> Cervecería Catalana aynı sokakta 7 dakika mesafede (rezervasyonsuz, her zaman çalışan B planı), ve otelin kendi lobi barı Akdeniz mutfağı servis ediyor — <b>1 Ocak için en güvenli masa</b>.</div>
+  <div class="info">İspanya'da yasal içki yaşı 18 ve uygulanıyor. Listedeki her yer 16 yaşındaki bir gence uygun.</div>
+  <p class="hint">Akşam yemeği Barselona'da 21:00'den önce başlamaz. 20:00'de gittiğinizde restoran boş olur — bu normaldir.</p>`;
+}
+
+/* ---- Otel ---- */
+function Hotel(){
+  const walks=WALKS.map(w=>`<div class="oc"><div class="ocn"><b>${esc(w.n)}</b>${w.x?`<span>${esc(w.x)}</span>`:''}</div>
+    <span class="badge on">${esc(w.d)}</span></div>`).join('');
+  return `<button onclick="go('more')" style="color:var(--sky);font-weight:700;font-size:14px;margin:2px 0 12px">‹ Daha</button>
+  <div class="dhdr"><div class="kd">Konaklama</div><h2>Otel</h2></div>
+  <div class="hotelcard"><h3>${esc(cfg('hotelName'))}</h3><div class="cityline">📍 ${esc(cfg('hotelAddr'))}</div>
+    <div class="nights"><div class="nb"><s>GİRİŞ</s><b>29 Ara</b></div><div class="nb"><s>ÇIKIŞ</s><b>3 Oca</b></div><div class="nb"><s>GECE</s><b>5</b></div></div>
+    <div class="callrow"><button class="cbtn" onclick="openMap('${jattr(hotelQ())}')"><span class="e">📍</span>Harita</button>
+      <a class="cbtn gold" href="tel:${cfg('hotelPhone')}"><span class="e">☎️</span>Ara</a>
+      <button class="cbtn" onclick="openHotelNote()"><span class="e">📝</span>Notlar</button></div>
+  </div>
+  <div class="warn"><b>Check-in 15:00.</b> Uçak 11:45'te iniyor, otelde 13:45 civarı olacaksınız — oda hazır olmayacak. Bavulları resepsiyona bırakıp öğle yemeğine çıkma planı 1. güne işlendi.<br><br>
+  <b>Check-out 12:00</b> ama biz 08:35'te çıkıyoruz, sorun yok.</div>
+  <div class="sec-l">Otelden mesafeler</div>
+  <div class="card">${walks}</div>
+  <div class="info">Mahalle: <b>Eixample Esquerra</b> (sol Eixample). Turistik merkezin bir adım dışında, sakin ve yerel; akşamları güvenli. Hospital Clínic çevresinde market, eczane ve mahalle lokantası bol.</div>
+  <button class="lrow" onclick="go('setup')"><div class="e">⚙️</div><div class="li"><b>Otel bilgisini düzenle</b><span>Ad, adres, telefon, bilet saatleri</span></div><div class="chev">›</div></button>`;
+}
+function openHotelNote(){
+  const cur=Store.get('hotelnote','');
+  openSheet(`<div class="sh-hd"><div class="em">🏨</div><div><h3>Otel notları</h3><div class="du">Rezervasyon no, oda, kahvaltı saati…</div></div></div>
+    <div class="field"><textarea id="hnote" placeholder="Rezervasyon numarası, oda tipi, kahvaltı dahil mi, bagaj odası, 1 Ocak restoran teyidi…">${esc(cur)}</textarea></div>
+    <button class="mapbtn" style="width:100%;justify-content:center;margin-top:12px" onclick="Store.set('hotelnote',val('hnote'));closeSheets();toast('Kaydedildi')">Kaydet</button>`);
+}
+
+/* ---- Kurulum ---- */
+function Setup(){
+  const c=CFG();
+  const f=(id,label,ph,v,type)=>`<div class="sec-l">${label}</div>
+    <input id="${id}" class="inp full" ${type?`type="${type}"`:''} placeholder="${ph}" value="${esc(v||'')}">`;
+  return `<button onclick="go('more')" style="color:var(--sky);font-weight:700;font-size:14px;margin:2px 0 12px">‹ Daha</button>
+  <div class="dhdr"><div class="kd">Sabitlenen bilgiler</div><h2>Kurulum</h2>
+    <p>Otel ve uçuşlar işlendi. Bilet saatleri aldıkça doldurulacak.</p></div>
+  <div class="ok">Otel, adres ve uçuş bilgileri plana gömüldü. Haritalar artık Carrer de Mallorca 181'den başlıyor.</div>
+
+  ${f('cHotelName','Otel adı','',cfg('hotelName'))}
+  ${f('cHotelAddr','Otel adresi','',cfg('hotelAddr'))}
+  ${f('cHotelPhone','Otel telefonu','+34…',cfg('hotelPhone'),'tel')}
+
+  ${f('cFlightIn','Geliş uçuşu','',cfg('flightIn'))}
+  ${f('cFlightOut','Dönüş uçuşu','',cfg('flightOut'))}
+
+  <div class="divider"></div>
+  <p class="hint" style="margin-bottom:10px">Bilet aldıkça gerçek saat dilimlerini girin. Boşsa plandaki varsayılan saat kullanılır.</p>
+  ${f('cSagrada','Sagrada Família saati','09:15',c.tSagrada,'time')}
+  ${f('cGuell','Park Güell saati','15:15',c.tGuell,'time')}
+  ${f('cBatllo','Casa Batlló saati','09:00',c.tBatllo,'time')}
+  ${f('cPedrera','La Pedrera saati','11:30',c.tPedrera,'time')}
+
+  <button class="mapbtn" style="width:100%;justify-content:center;margin-top:16px" onclick="saveSetup()">Kaydet</button>
+  <p class="hint">Bunlar sadece bu cihazda saklanır. Yedek almak için Daha → Verilerimi yedekle.</p>`;
+}
+function saveSetup(){
+  setCfg('hotelName',val('cHotelName'));
+  setCfg('hotelAddr',val('cHotelAddr'));
+  setCfg('hotelPhone',val('cHotelPhone').replace(/\s/g,''));
+  setCfg('flightIn',val('cFlightIn'));
+  setCfg('flightOut',val('cFlightOut'));
+  setCfg('tSagrada',val('cSagrada'));
+  setCfg('tGuell',val('cGuell'));
+  setCfg('tBatllo',val('cBatllo'));
+  setCfg('tPedrera',val('cPedrera'));
+  toast('Kaydedildi — plan güncellendi');go('home');
+}
+
+/* ---- Sorun giderme ---- */
+function Help(){
+  return `<button onclick="go('more')" style="color:var(--sky);font-weight:700;font-size:14px;margin:2px 0 12px">‹ Daha</button>
+  <div class="dhdr"><div class="kd">Sorun giderme</div><h2>Bağlantılar açılmıyor</h2>
+    <p>Harita ve site düğmeleri neden çalışmıyor, nasıl düzelir.</p></div>
+  <div class="card"><div class="lbl">Şu anki durum</div>
+    <table class="ftab" style="margin-top:6px">
+      <tr><td>Açılış biçimi</td><td>${LOCALFILE?'Yerel dosya':'Web adresi'}</td></tr>
+      <tr><td>Adres türü</td><td>${esc(location.protocol)}</td></tr>
+      <tr><td>Veri kaydı</td><td>${Store.persistent?'Çalışıyor':'ÇALIŞMIYOR'}</td></tr>
+    </table></div>
+  ${LOCALFILE?`<div class="warn"><b>Neden olmuyor:</b> GoodReader gibi uygulamalar HTML dosyasını kendi içinde, kapalı bir pencerede açar. O pencerede yeni sekme açılamadığı için harita bağlantıları sessizce hiçbir şey yapmaz.<br><br>
+  <b>Daha önemlisi:</b> bu modda işaretleriniz, notlarınız ve fotoğraflarınız <b>kaydedilmez</b>. Uygulamayı kapattığınızda kaybolur.</div>`:
+  `<div class="ok">Bu kopya bir web adresinden açılmış. Bağlantılar ve veri kaydı normal çalışır.</div>`}
+  <div class="sec-l">Geçici çözüm — şimdi çalışır</div>
+  <div class="card"><p style="font-size:14px;line-height:1.7;margin:0">
+   Harita düğmesine dokununca artık bir seçim penceresi açılıyor:<br>
+   • <b>Apple Haritalar</b> veya <b>Google Haritalar</b> düğmesini deneyin<br>
+   • Açılmazsa <b>Adresi kopyala</b>ya basın, Haritalar uygulamasını açıp arama kutusuna yapıştırın<br>
+   • En altta adres seçilebilir metin olarak da duruyor</p></div>
+  <div class="sec-l">Kalıcı çözüm</div>
+  <div class="card"><p style="font-size:14px;line-height:1.7;margin:0">
+   Dosyayı bir web adresine koyun, <b>Safari</b>'de açın, Ana Ekrana Ekleyin. O zaman haritalar tek dokunuşla açılır ve verileriniz kalıcı olur.<br><br>
+   <b>1.</b> GitHub'da <b>public</b> bir depo açın<br>
+   <b>2.</b> Dosyayı <b>index.html</b> adıyla yükleyin<br>
+   <b>3.</b> Settings → Pages → Branch: main, klasör / (root) → Save<br>
+   <b>4.</b> Çıkan adresi <b>Safari'de</b> açın<br>
+   <b>5.</b> Paylaş → Ana Ekrana Ekle</p></div>
+  <div class="info">GoodReader kopyasını yedek olarak tutabilirsiniz — plan, saatler, bilet bilgileri ve telefon numaraları orada da okunur. Sadece harita ve kayıt özellikleri kısıtlı.</div>`;
+}
+
+function More(){
+  return `<div class="top"><div><div class="ki">Araç kutusu</div><h1>Daha</h1>
+    <div class="date">Gezinin geri kalan her şeyi</div></div><div class="flag"></div></div>
+  <button class="lrow" onclick="go('bookings')"><div class="e">🎟️</div><div class="li"><b>Biletler & rezervasyonlar</b><span>${BOOKINGS.filter(b=>!isDone(b.id)).length} madde bekliyor · linkler dahil</span></div><div class="chev">›</div></button>
+  <button class="lrow" onclick="go('hotel')"><div class="e">🏨</div><div class="li"><b>Otel</b><span>${esc(cfg('hotelName'))}</span></div><div class="chev">›</div></button>
+  <button class="lrow" onclick="go('transport')"><div class="e">🚆</div><div class="li"><b>Ulaşım</b><span>T2 · R2 Nord · T-familiar</span></div><div class="chev">›</div></button>
+  <button class="lrow" onclick="go('food')"><div class="e">🍽️</div><div class="li"><b>Restoranlar</b><span>${FOOD.length} yer · otele yakınlık sırasıyla</span></div><div class="chev">›</div></button>
+  <button class="lrow" onclick="go('nye')"><div class="e">🎆</div><div class="li"><b>Yılbaşı gecesi</b><span>Saatler, metro, güvenlik</span></div><div class="chev">›</div></button>
+  <button class="lrow" onclick="go('jan1')"><div class="e">🔒</div><div class="li"><b>1 Ocak açık/kapalı</b><span>Hiçbir şeyi varsaymayın</span></div><div class="chev">›</div></button>
+  <button class="lrow" onclick="go('tickets')"><div class="e">🎫</div><div class="li"><b>Bilet cüzdanı</b><span>QR kodları çevrimdışı saklayın</span></div><div class="chev">›</div></button>
+  <button class="lrow" onclick="go('emergency')"><div class="e">🆘</div><div class="li"><b>Acil durum</b><span>112 · başkonsolosluk · hastane</span></div><div class="chev">›</div></button>
+  <button class="lrow" onclick="go('setup')"><div class="e">⚙️</div><div class="li"><b>Kurulum</b><span>Otel, uçuş, bilet saatleri</span></div><div class="chev">›</div></button>
+  <button class="lrow" onclick="go('help')"><div class="e">🔧</div><div class="li"><b>Bağlantılar açılmıyor</b><span>${LOCALFILE?'Yerel dosya modu — kısıtlı':'Sorun giderme ve kurulum'}</span></div><div class="chev">›</div></button>
+  <div class="divider"></div>
+  <button class="lrow" onclick="Notify.toggle()"><div class="e">🔔</div><div class="li"><b>Hatırlatmalar</b><span id="notifState">${Notify.enabled()?'Açık — her durak öncesi uyarı':'Kapalı — açmak için dokunun'}</span></div><div class="chev">›</div></button>
+  <button class="lrow" onclick="installHelp()"><div class="e">📲</div><div class="li"><b>Ana Ekrana Ekle</b><span>Uygulama gibi çalışsın · çevrimdışı</span></div><div class="chev">›</div></button>
+  <button class="lrow" onclick="exportData()"><div class="e">💾</div><div class="li"><b>Verilerimi yedekle</b><span>Not, fotoğraf ve harcamalar (JSON)</span></div><div class="chev">›</div></button>
+  <p class="hint">Fiyat ve saatler 25 Ekim 2026'da resmî sitelerden doğrulandı. "teyit et" etiketli maddeler 2026–27 için henüz yayımlanmadı — Aralık ortasında kontrol edin.</p>`;
+}
+
+function Tickets(){
+  const tk=Store.get('tickets',[]);
+  let grid=tk.length?`<div class="thumbs" style="margin-top:4px">${tk.map(t=>`<div class="thumbwrap">
+    <img class="thumb" src="${t.img}" onclick="viewImg('${t.id}','tickets')">
+    <div class="x" onclick="delTicket('${t.id}')">✕</div></div>`).join('')}</div>`:
+    `<div class="empty"><span class="e">🎫</span>Henüz bilet eklenmedi.<br>Sagrada Família, Park Güell, Casa Batlló,<br>La Pedrera ve uçuş kartlarını buraya ekleyin.</div>`;
+  return `<button onclick="go('more')" style="color:var(--sky);font-weight:700;font-size:14px;margin:2px 0 12px">‹ Daha</button>
+  <div class="dhdr"><div class="kd">Cüzdan</div><h2>Biletler & QR</h2><p>Fotoğrafını çekin — internetsiz de açılır.</p></div>
+  <div class="card">${grid}
+    <label class="mapbtn" style="width:100%;justify-content:center;margin-top:14px">📷 Bilet / QR ekle
+      <input type="file" accept="image/*" style="display:none" onchange="addTicket(this)"></label></div>
+  <div class="warn"><b>Sagrada Família ve Park Güell:</b> biletler ada yazılı ve girişte fotoğraflı kimlikle karşılaştırılıyor. Üç kişinin de pasaportu yanında olsun — QR tek başına yeterli değil. Oğlunuzun 30 yaş altı indirimi için de kimlik isteniyor.</div>
+  <p class="hint">Görseller bu cihazda saklanır. Cüzdanı hafif tutun (birkaç bilet) ki depolama sınırını aşmasın.</p>`;
+}
+function addTicket(input){const f=input.files[0];if(!f)return;compress(f,900,img=>{
+  const tk=Store.get('tickets',[]);tk.push({id:'t'+Date.now(),img});Store.set('tickets',tk);render();toast('Bilet kaydedildi');});}
+function delTicket(id){let tk=Store.get('tickets',[]);tk=tk.filter(t=>t.id!==id);Store.set('tickets',tk);render();}
+
+function Emergency(){
+  const c=EMERGENCY.consulate;
+  return `<button onclick="go('more')" style="color:var(--sky);font-weight:700;font-size:14px;margin:2px 0 12px">‹ Daha</button>
+  <div class="dhdr"><div class="kd">Bir şey ters giderse</div><h2>Acil Durum</h2><p>112 İspanya'nın her yerinde geçerli.</p></div>
+  <div class="callrow"><a class="cbtn red" href="tel:112"><span class="e">🚑</span>112</a>
+    <a class="cbtn" href="tel:091"><span class="e">👮</span>Polis 091</a>
+    <button class="cbtn" onclick="openMap('Hospital Clinic Barcelona urgencias')"><span class="e">🏥</span>Hastane</button></div>
+  <div class="ok"><b>Şanslısınız:</b> Hospital Clínic otelinizden 300 m. Barselona'nın en büyük merkezî hastanesi, 24 saat acil servisi var.</div>
+  <div class="sec-l">T.C. Barselona Başkonsolosluğu</div>
+  <div class="hotelcard"><h3 style="font-size:16px">${esc(c.name)}</h3><div class="cityline">📍 ${esc(c.addr)}</div>
+    <div class="callrow" style="margin-top:14px"><a class="cbtn" href="tel:${c.phone}"><span class="e">☎️</span>Santral</a>
+      <a class="cbtn gold" href="tel:${c.emergency}"><span class="e">🚨</span>7/24 nöbetçi</a>
+      <button class="cbtn" onclick="openMap('${jattr(c.q)}')"><span class="e">📍</span>Harita</button></div>
+    <p class="hint" style="margin-top:10px">Otelinizden ~1,3 km (16 dk yürüme). Randevu ile çalışır; acil hallerde nöbetçi hattı 7/24.</p></div>
+  <div class="sec-l">Sağlık</div>
+  <button class="lrow" onclick="openMap('Hospital Clinic Barcelona Villarroel 170')"><div class="e">🏥</div><div class="li"><b>Hospital Clínic</b><span>Villarroel 170 · otelden 300 m</span></div><div class="chev">›</div></button>
+  <button class="lrow" onclick="openMap('farmacia 24 horas Barcelona Eixample')"><div class="e">💊</div><div class="li"><b>24 saat eczane</b><span>"Farmàcia de guàrdia" · yeşil haç</span></div><div class="chev">›</div></button>
+  <button class="lrow" onclick="openInsNote()"><div class="e">📄</div><div class="li"><b>Sigorta poliçesi</b><span>Poliçe numarasını buraya yazın</span></div><div class="chev">›</div></button>
+  <div class="warn">Yankesicilik Barselona'nın gerçek riskidir — La Rambla, metro ve yılbaşı kalabalığında zirve yapar. Pasaportların fotoğrafını telefonunuzda tutun, orijinalleri otel kasasında bırakın.</div>`;
+}
+function openInsNote(){const cur=Store.get('insnote','');
+  openSheet(`<div class="sh-hd"><div class="em">📄</div><div><h3>Sigorta</h3><div class="du">Bu cihazda saklanır</div></div></div>
+  <div class="field"><textarea id="inote" placeholder="Poliçe no, acil yardım hattı, kapsam…">${esc(cur)}</textarea></div>
+  <button class="mapbtn" style="width:100%;justify-content:center;margin-top:12px" onclick="Store.set('insnote',val('inote'));closeSheets();toast('Kaydedildi')">Kaydet</button>`);}
+
+/* ---- Bütçe ---- */
+function Money(){
+  const ex=Store.get('exp',[]);
+  const byDay={}; ex.forEach(e=>{(byDay[e.day]=byDay[e.day]||[]).push(e);});
+  const byCat={}; ex.forEach(e=>{byCat[e.cat]=(byCat[e.cat]||0)+e.amt;});
+  const cats=Object.keys(byCat).sort((a,b)=>byCat[b]-byCat[a]);
+  const max=Math.max(1,...Object.values(byCat));
+  const catName={yemek:'Yemek',bilet:'Bilet',ulasim:'Ulaşım',otel:'Otel',alisveris:'Alışveriş',diger:'Diğer'};
+  const catColor={yemek:'var(--gold)',bilet:'var(--sky)',ulasim:'#8a6bc7',otel:'#c77b8a',alisveris:'var(--green)',diger:'var(--muted)'};
+  let bars=cats.length?`<div class="card"><div class="lbl">Kategoriye göre</div><div class="bars">${
+    cats.map(c=>`<div class="barrow"><span class="bl">${catName[c]||c}</span><span class="bt"><i style="width:${byCat[c]/max*100}%;background:${catColor[c]||'var(--muted)'}"></i></span><span class="bv">${fmtEur(byCat[c])}</span></div>`).join('')
+  }</div></div>`:'';
+  let list=Object.keys(byDay).sort((a,b)=>b-a).map(di=>{
+    const day=DAYS[di];const items=byDay[di];const sum=items.reduce((s,e)=>s+e.amt,0);
+    return `<div class="card"><div class="prow" style="margin-bottom:4px"><b>${day?day.date:'—'} · ${+di+1}. gün</b><span style="font-weight:800">${fmtEur(sum)}</span></div>
+      ${items.map(e=>`<div class="exrow"><div class="ee">${catEmoji(e.cat)}</div>
+        <div class="ei"><b>${esc(e.label||catName[e.cat])}</b><span>${catName[e.cat]||e.cat}</span></div>
+        <div class="ea">${fmtEur(e.amt)}</div>
+        <button class="del" onclick="delExp('${e.id}')">✕</button></div>`).join('')}</div>`;
+  }).join('')||`<div class="empty"><span class="e">💶</span>Henüz harcama yok. Aşağıdan ekleyin.</div>`;
+  return `<div class="top"><div><div class="ki">Bütçe</div><h1>Harcamalar</h1>
+    <div class="date">3 kişi · otel hariç ~1.300–1.800 €</div></div><div class="flag"></div></div>
+  <div class="card total"><div class="lbl">Toplam harcanan</div><div class="amt">${fmtEur(grandTotal())}</div>
+    <small>${Store.get('exp',[]).length} kayıt</small></div>
+  <div class="card"><div class="lbl" style="margin-bottom:10px">Harcama ekle</div>
+    <div class="addbar"><input id="exLabel" class="inp" placeholder="Ne için?" style="flex:1"><input id="exAmt" class="inp" type="number" inputmode="decimal" placeholder="€" style="width:78px"></div>
+    <div class="addbar"><select id="exDay" class="inp" style="flex:1">${DAYS.map((d,i)=>`<option value="${i}" ${i===todayIndex()?'selected':''}>${d.date}</option>`).join('')}</select>
+      <select id="exCat" class="inp" style="flex:1"><option value="yemek">Yemek</option><option value="bilet">Bilet</option><option value="ulasim">Ulaşım</option><option value="otel">Otel</option><option value="alisveris">Alışveriş</option><option value="diger">Diğer</option></select>
+      <button class="cbtn gold" style="width:52px;flex-direction:row" onclick="addExp()">＋</button></div>
+  </div>
+  ${bars}${list}
+  <div class="card"><div class="lbl">Planlanan bütçe (3 kişi, otel hariç)</div>
+    <table class="ftab" style="margin-top:6px">
+      <tr><td>Havaalanı: tren + dönüş taksisi</td><td>~45 €</td></tr>
+      <tr><td>Şehir içi (3 × T-familiar)</td><td>34,50 €</td></tr>
+      <tr><td>Müze ve anıt biletleri</td><td>~470 €</td></tr>
+      <tr><td>Yemek · 5 gün</td><td>700–1.200 €</td></tr>
+      <tr><td>Camp Nou (opsiyonel)</td><td>84–120 €</td></tr>
+      <tr><td>Yedek / hediyelik</td><td>150–250 €</td></tr>
+    </table>
+    <p class="hint" style="margin-top:10px">MNAC'ın Cumartesi ücretsiz seansı 36 €, La Pedrera'nın online fiyatı 12 €, Casa Batlló'nun erken alım indirimi kişi başı 15 €'ya kadar tasarruf ettiriyor.</p></div>`;
+}
+function wireMoney(){const amt=document.getElementById('exAmt');if(amt)amt.addEventListener('keydown',e=>{if(e.key==='Enter')addExp();});}
+function addExp(){const label=val('exLabel'),amt=parseFloat(val('exAmt')),day=val('exDay'),cat=val('exCat');
+  if(!amt||amt<=0){toast('Tutar girin');return;}
+  const ex=Store.get('exp',[]);ex.push({id:'e'+Date.now(),label,amt,day,cat});Store.set('exp',ex);render();toast('Eklendi');}
+function delExp(id){let ex=Store.get('exp',[]);ex=ex.filter(e=>e.id!==id);Store.set('exp',ex);render();}
+function grandTotal(){return Store.get('exp',[]).reduce((s,e)=>s+e.amt,0);}
+function catEmoji(c){return{yemek:'🍽️',bilet:'🎫',ulasim:'🚇',otel:'🏨',alisveris:'🛍️',diger:'💶'}[c]||'💶';}
+
+/* ============================================================
+   AKTİVİTE SAYFASI
+   ============================================================ */
+function openActivity(id){
+  const r=activityById(id);if(!r)return;const a=r.a;const done=isDone(id);
+  const notes=Store.get('note_'+id,'');const photos=Store.get('photos_'+id,[]);
+  let acts=`<div class="acts">`;
+  acts+=`<button class="act pri wide" onclick="quickToggle('${id}');closeSheets();toast('${done?'İşaret kaldırıldı':'Tamamlandı ✓'}')">${done?'↩︎ Tamamlanmadı yap':'✓ Tamamlandı işaretle'}</button>`;
+  if(actQ(a))acts+=`<button class="act" onclick="openMap('${jattr(actQ(a))}')"><span class="e">📍</span>Harita</button>`;
+  if(a.web)acts+=`<button class="act" onclick="openWeb('${jattr(a.web)}')"><span class="e">🌐</span>Resmî site</button>`;
+  acts+=`</div>`;
+  let ticket=a.ticket?`<div class="sec-l">🎫 Bilet / bilgi</div><div class="field"><div style="font-size:14px;line-height:1.6;white-space:pre-wrap">${esc(a.ticket)}</div></div>`:'';
+  let hint=a.note?`<div class="sec-l">Bilinmesi iyi</div><div class="field"><div style="font-size:14px;line-height:1.6;color:var(--ink2);white-space:pre-wrap">${esc(a.note)}</div></div>`:'';
+  let ph=`<div class="thumbs">${photos.map(p=>`<div class="thumbwrap"><img class="thumb" src="${p.img}" onclick="viewImg('${p.id}','photos_${id}')"><div class="x" onclick="delPhoto('${id}','${p.id}')">✕</div></div>`).join('')}
+    <label class="addph"><span class="e">📷</span>Ekle<input type="file" accept="image/*" style="display:none" onchange="addPhoto('${id}',this)"></label></div>`;
+  openSheet(`
+    <div class="sh-hd"><div class="em">${a.em}</div><div><div class="time">${actTime(a)}</div><h3>${esc(a.title)}</h3>
+      <div class="du">${a.dur?'⏱ '+esc(a.dur):''} ${a.sub?'· '+esc(a.sub):''}</div></div></div>
+    ${acts}${ticket}${hint}
+    <div class="sec-l">📝 Not</div>
+    <div class="field"><textarea id="anote" placeholder="Not ekleyin — masa no, buluşma yeri, hatırlatma…" oninput="saveNote('${id}',this.value)">${esc(notes)}</textarea></div>
+    <div class="sec-l">📸 Fotoğraflar</div>${ph}
+  `);
+}
+function saveNote(id,v){Store.set('note_'+id,v);}
+function addPhoto(id,input){const f=input.files[0];if(!f)return;compress(f,1100,img=>{
+  const key='photos_'+id;const ps=Store.get(key,[]);ps.push({id:'p'+Date.now(),img});Store.set(key,ps);openActivity(id);toast('Fotoğraf eklendi');});}
+function delPhoto(id,pid){const key='photos_'+id;let ps=Store.get(key,[]);ps=ps.filter(p=>p.id!==pid);Store.set(key,ps);openActivity(id);}
+function viewImg(pid,key){const arr=Store.get(key,[]);const p=arr.find(x=>x.id===pid);if(!p)return;
+  document.getElementById('viewerImg').src=p.img;document.getElementById('viewer').classList.add('on');}
+function quickToggle(id,btn){toggleDone(id);
+  if(VIEW.startsWith('day/')||VIEW==='home'||VIEW==='bookings')render();
+  if(btn){btn.textContent=isDone(id)?'✓':'';}}
+
+/* ---- görsel sıkıştırma ---- */
+function compress(file,maxW,cb){const r=new FileReader();r.onload=e=>{const img=new Image();img.onload=()=>{
+  const sc=Math.min(1,maxW/img.width);const w=img.width*sc,h=img.height*sc;
+  const cv=document.createElement('canvas');cv.width=w;cv.height=h;cv.getContext('2d').drawImage(img,0,0,w,h);
+  cb(cv.toDataURL('image/jpeg',0.72));};img.src=e.target.result;};r.readAsDataURL(file);}
+
+/* ============================================================
+   SEKMELER & SAYFALAR
+   ============================================================ */
+function renderTabs(){
+  const sub=['hotel','transport','tickets','bookings','jan1','nye','food','emergency','setup','help'];
+  const cur=VIEW.startsWith('day')?'days':['home','days','map','money','more'].includes(VIEW)?VIEW:(sub.includes(VIEW)?'more':'home');
+  const T=[['home','🏠','Bugün'],['days','📅','Günler'],['map','🗺️','Harita'],['money','💶','Bütçe'],['more','⋯','Daha']];
+  document.getElementById('tabs').innerHTML=T.map(([v,e,l])=>
+    `<button class="tab ${cur===v?'on':''}" onclick="go('${v}')"><span class="e">${e}</span>${l}</button>`).join('');
+}
+function openSheet(html){document.getElementById('sheetBody').innerHTML=html;
+  document.getElementById('scrim').classList.add('on');document.getElementById('sheet').classList.add('on');}
+function closeSheets(){document.getElementById('scrim').classList.remove('on');
+  document.getElementById('sheet').classList.remove('on');document.getElementById('chatSheet').classList.remove('on');}
+
+/* ============================================================
+   ASİSTAN
+   ============================================================ */
+const Chat=(()=>{
+  let msgs=[];
+  const suggestions=["Bugünü özetle","Sırada ne var?","1 saat boş vaktim var","Otele nasıl dönerim?","Yağmur yağarsa?","1 Ocak'ta ne açık?","Yılbaşı gecesi planı"];
+  function open(){
+    document.getElementById('scrim').classList.add('on');document.getElementById('chatSheet').classList.add('on');draw();
+  }
+  function draw(){
+    const online=navigator.onLine;
+    document.getElementById('chatBody').innerHTML=`
+      <div class="chat-hd"><div class="av">💬</div><div style="flex:1"><b>Gezi Asistanı</b>
+        <span>${online?'Çevrimiçi · planı biliyor':'Çevrimdışı · planı biliyor'}</span></div>
+        <span class="pill ${online?'':'off'}">${online?'canlı':'çevrimdışı'}</span></div>
+      <div class="msgs" id="msgs">${msgs.length?msgs.map(m=>`<div class="msg ${m.r}">${m.r==='a'?fmt(m.c):esc(m.c)}</div>`).join(''):
+        `<div class="msg a">Merhaba! Barselona planınızın tamamını biliyorum — otel konumu, saatler, biletler, rotalar, kapalı günler. İstediğinizi sorun ya da aşağıdaki önerilerden birine dokunun.</div>`}</div>
+      <div class="chips">${suggestions.map(s=>`<button class="chip" onclick="Chat.ask('${s.replace(/'/g,"\\'")}')">${s}</button>`).join('')}</div>
+      <div class="chatbar"><textarea id="chatIn" rows="1" placeholder="Bugün, boşluklar, yemek, hava…" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,90)+'px'"></textarea>
+        <button class="send" onclick="Chat.send()">↑</button></div>`;
+    const inp=document.getElementById('chatIn');
+    if(inp)inp.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();Chat.send();}});
+    scrollDown();
+  }
+  function scrollDown(){const m=document.getElementById('msgs');if(m)m.scrollTop=m.scrollHeight;}
+  function push(r,c){msgs.push({r,c});draw();}
+  function send(){const inp=document.getElementById('chatIn');if(!inp)return;const t=inp.value.trim();if(!t)return;inp.value='';ask(t);}
+  async function ask(t){
+    push('u',t);
+    const local=answerLocal(t);
+    if(navigator.onLine){
+      showTyping();
+      try{const reply=await askClaude(t);removeTyping();push('a',reply||local);}
+      catch(e){removeTyping();push('a',local);}
+    }else push('a',local);
+  }
+  function showTyping(){const m=document.getElementById('msgs');if(!m)return;
+    const d=document.createElement('div');d.className='msg a typing';d.id='typing';d.innerHTML='<i></i><i></i><i></i>';m.appendChild(d);scrollDown();}
+  function removeTyping(){const t=document.getElementById('typing');if(t)t.remove();}
+
+  async function askClaude(t){
+    const idx=todayIndex();const day=DAYS[idx];
+    const planCtx=DAYS.map(d=>`${d.n}. gün (${d.date}, ${d.dow}): `+d.acts.map(a=>`${actTime(a)} ${a.title}${isDone(a.id)?' [tamam]':''}`).join('; ')).join('\n');
+    const sys=`Sen Barselona gezisi (29 Aralık 2026 – 3 Ocak 2027, 2 yetişkin + 16 yaşında bir genç) için hazırlanmış bir mobil gezi uygulamasının içindeki asistansın. Bugün ${idx+1}. gün (${day.date}). Şu anki saat: ${new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'})}.
+Kullanıcının dilinde (Türkçe) kısa ve pratik cevap ver (en fazla ~6 kısa satır). Her öneriyi aşağıdaki plana dayandır; alternatif önerirsen planın geri kalanını koru ve neyin kaydığını söyle. Gerçek yer isimlerini kullan.
+OTEL: ${cfg('hotelName')}, ${cfg('hotelAddr')} (Eixample Esquerra). En yakın metro Hospital Clínic (L5) 250 m — Sagrada Família'ya aktarmasız. Urgell (L1) 600 m — Espanya'ya aktarmasız. La Pedrera 11 dk, Casa Batlló 13 dk, Plaça Catalunya 18 dk yürüme. Cervecería Catalana 7 dk. Hospital Clínic hastanesi 300 m.
+UÇUŞ: geliş ${cfg('flightIn')}, dönüş ${cfg('flightOut')}. Pegasus Terminal 2 kullanır; geliş transferi R2 Nord treni + L5 metro, dönüş taksi.
+Önemli kısıtlar: 1 Ocak'ta MNAC, Picasso Müzesi, Camp Nou, tüm pazarlar ve mağazalar KAPALI; La Pedrera 11:00–20:30 açık. Boqueria pazar ve resmî tatillerde kapalı. Metro 31 Aralık gecesi kesintisiz çalışır. T-casual/T-familiar metro L9 havaalanı istasyonlarında geçmez ama R2 Nord treninde geçerlidir. MNAC Cumartesi 15:00 sonrası ücretsiz. Otel check-in 15:00, check-out 12:00.
+Yeme içme: ${JSON.stringify(GUIDE.yemek)}. Kahve: ${JSON.stringify(GUIDE.kahve)}. Market: ${GUIDE.market}
+Yağmurda kapalı mekân: ${JSON.stringify(GUIDE.acik)}. Açık hava: ${JSON.stringify(GUIDE.kapali)}
+TÜM PLAN:\n${planCtx}`;
+    const res=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({model:"claude-sonnet-4-6",max_tokens:1000,system:sys,messages:[{role:"user",content:t}]})});
+    const data=await res.json();
+    return (data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('\n').trim();
+  }
+
+  function answerLocal(t){
+    const s=t.toLowerCase();const idx=todayIndex();const day=DAYS[idx];
+    const has=(...w)=>w.some(x=>s.includes(x));
+    if(has('özet','bugün','plan')&&!has('yağmur')){
+      const kalan=day.acts.filter(a=>!isDone(a.id));
+      return `**${day.n}. gün · ${day.date} — ${day.title}**\n`+day.acts.map(a=>`${isDone(a.id)?'✓':'○'} ${actTime(a)} ${a.title}`).join('\n')+
+        `\n\n${day.acts.length} maddeden ${kalan.length} tanesi kaldı.`;
+    }
+    if(has('sırada','şimdi','next')){
+      const {a}=nextActivity();if(!a)return "Bugünlük her şey tamam. 🎉";
+      return `**Sırada: ${actTime(a)} ${a.title}**\n${a.sub||''}\n${isTripLive()?countdownText(a):`(${idx+1}. gün)`}`;
+    }
+    if(has('otele','otel','dön','geri')){
+      return `**Otele dönüş** — ${cfg('hotelAddr')}\n• Metro **L5 → Hospital Clínic** (çıkışa 250 m)\n• Metro **L1 → Urgell** (600 m)\n• Gotik/Rambla'dan: L1 Catalunya → Urgell\n• Espanya'dan: L1 direkt`;
+    }
+    if(has('boş','vakit','saatim','gap')){
+      return `Rotaya yakın hızlı doldurma:\n• ☕ ${GUIDE.kahve[0]}\n• 🚶 ${GUIDE.kapali[0]}\nİkisi de günün duraklarına yakın, geri kalmazsınız.`;
+    }
+    if(has('kahve','kahvalt','çikolata','churros')){return `☕ Barselona'da:\n`+GUIDE.kahve.map(c=>`• ${c}`).join('\n');}
+    if(has('yemek','restoran','akşam','öğle','ne yesek')){return `🍽️ Öneriler:\n`+GUIDE.yemek.map(c=>`• ${c}`).join('\n')+`\nCervecería Catalana otelden 7 dk — her zaman çalışan B planı.`;}
+    if(has('market','süpermarket','alışveriş')){return `🛒 ${GUIDE.market}`;}
+    if(has('yağmur','hava')){
+      return `☔ Yağarsa kapalı mekânları öne alın:\n`+GUIDE.acik.slice(0,3).map(x=>`• ${x}`).join('\n')+`\nAçık hava duraklarını (${GUIDE.kapali.slice(0,2).join(', ')}) açık bir saate kaydırın.`;
+    }
+    if(has('1 ocak','yeni yıl günü','yılın ilk')){
+      return `**1 Ocak — açık olanlar**\n• La Pedrera 11:00–20:30 (otelden 11 dk yürüme)\n• Park Güell 09:30–18:00\n• Casa Batlló\n**Kapalı:** MNAC, Picasso, Camp Nou, tüm pazarlar ve mağazalar.\nYemek rezervasyonu şart — otel restoranı en güvenlisi.`;
+    }
+    if(has('yılbaşı','31 aralık','gece','havai','drone')){
+      return `**Yılbaşı gecesi**\n• Yer: Av. Reina Maria Cristina (Montjuïc), ücretsiz\n• 21:30'da **Urgell → Espanya** (L1, direkt 3 durak)\n• 22:10'da yerinizi alın\n• Gösteri ~23:50–00:10\n• Dönüşte Espanya yerine **Rocafort**'a yürüyün`;
+    }
+    if(has('sagrada')){
+      return `**Sagrada Família**\n30 Aralık 09:15. Otelden **L5 ile aktarmasız**, 12 dk.\nKuleli 36 €, 30 yaş altı 24 €.\n⚠️ Bilet ada yazılı — pasaport yanınızda.\n⚠️ Kule takvimi 25 Ekim'de henüz açılmamıştı; 1 Kasım'dan itibaren kontrol edin.`;
+    }
+    if(has('bilet','ulaşım','metro','t-familiar','tren','havaalanı','terminal')){
+      return `**Ulaşım planı**\n• Pegasus = **Terminal 2**\n• Geliş: R2 Nord treni (T2 → Sants) + L5 (Sants → Hospital Clínic)\n• T-familiar bu trende **geçerli** (metro L9'un aksine)\n• Dönüş: taksi ~35–40 €, 08:55'te otelden\n• Şehir içi: 2–3 adet T-familiar`;
+    }
+    return `Şunlarda yardımcı olabilirim: bugünün planı, sırada ne var, otele dönüş, boş vakti doldurma, kahve/yemek, market, yağmur planı, 1 Ocak açık/kapalı, yılbaşı gecesi, ulaşım.${!navigator.onLine?' (Çevrimdışısınız, yerleşik planı kullanıyorum.)':''}`;
+  }
+  function fmt(t){return esc(t).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/\n/g,'<br>');}
+  return {open,ask,send};
+})();
+
+/* ============================================================
+   HATIRLATMALAR
+   ============================================================ */
+const Notify=(()=>{
+  function enabled(){return Store.get('notif',false)&&('Notification'in window)&&Notification.permission==='granted';}
+  async function toggle(){
+    if(!('Notification'in window)){toast('Bu ortamda bildirim desteklenmiyor');return;}
+    if(Store.get('notif',false)){Store.set('notif',false);toast('Hatırlatmalar kapalı');updateLabel();return;}
+    const p=await Notification.requestPermission();
+    if(p==='granted'){Store.set('notif',true);toast('Hatırlatmalar açık');}
+    else toast('İzin verilmedi');
+    updateLabel();
+  }
+  function updateLabel(){const el=document.getElementById('notifState');if(el)el.textContent=enabled()?'Açık — her durak öncesi uyarı':'Kapalı — açmak için dokunun';}
+  let fired=Store.get('fired',{});
+  function tick(){
+    if(!enabled()||!isTripLive())return;
+    const day=DAYS[todayIndex()];const nm=nowMin();
+    day.acts.forEach(a=>{
+      if(isDone(a.id))return;
+      const lead=a.tag==='book'?30:15;
+      const k1=a.id+'_lead';
+      if(!fired[k1]&&nm>=minutes(a)-lead&&nm<minutes(a)){
+        fired[k1]=1;Store.set('fired',fired);notify(`Sırada: ${a.title}`,`${actTime(a)} · ${a.sub||''}`);
+      }
+      const k2=a.id+'_at';
+      if(!fired[k2]&&nm>=minutes(a)&&nm<minutes(a)+2){
+        fired[k2]=1;Store.set('fired',fired);notify(`Şimdi: ${a.title}`,a.sub||'');
+      }
+    });
+  }
+  function notify(title,body){try{new Notification(title,{body,icon:iconURL});}catch(e){}}
+  return {enabled,toggle,tick,updateLabel};
+})();
+
+/* ============================================================
+   PWA
+   ============================================================ */
+let iconURL='';
+function makeIcon(){
+  const cv=document.createElement('canvas');cv.width=cv.height=512;const x=cv.getContext('2d');
+  x.fillStyle='#123F3C';x.fillRect(0,0,512,512);
+  const cols=['#C77F2B','#2E6FA3','#B0402F','#3f8f76','#F6E6CC'];
+  for(let i=0;i<26;i++){
+    x.fillStyle=cols[i%cols.length];x.globalAlpha=.55;
+    const w=40+Math.random()*70,h=40+Math.random()*70;
+    x.save();x.translate(Math.random()*512,Math.random()*512);x.rotate(Math.random()*1.2);
+    x.fillRect(-w/2,-h/2,w,h);x.restore();
+  }
+  x.globalAlpha=1;x.fillStyle='#F6F2E9';x.font='700 300px ui-serif,Georgia,serif';
+  x.textAlign='center';x.textBaseline='middle';x.fillText('B',256,276);
+  return cv.toDataURL('image/png');
+}
+function installPWA(){
+  iconURL=makeIcon();
+  const apple=document.createElement('link');apple.rel='apple-touch-icon';apple.href=iconURL;document.head.appendChild(apple);
+  const manifest={name:"Barselona Gezisi",short_name:"Barselona",start_url:".",display:"standalone",
+    background_color:"#F6F2E9",theme_color:"#123F3C",orientation:"portrait",
+    icons:[{src:iconURL,sizes:"512x512",type:"image/png",purpose:"any maskable"}]};
+  const blob=new Blob([JSON.stringify(manifest)],{type:'application/json'});
+  const link=document.createElement('link');link.rel='manifest';link.href=URL.createObjectURL(blob);document.head.appendChild(link);
+  if('serviceWorker'in navigator){
+    const sw=`self.addEventListener('install',e=>self.skipWaiting());
+      self.addEventListener('activate',e=>self.clients.claim());
+      self.addEventListener('fetch',e=>{e.respondWith(fetch(e.request).catch(()=>caches.match(e.request)))});`;
+    try{const b=new Blob([sw],{type:'text/javascript'});navigator.serviceWorker.register(URL.createObjectURL(b)).catch(()=>{});}catch(e){}
+  }
+}
+function installHelp(){
+  openSheet(`<div class="sh-hd"><div class="em">📲</div><div><h3>Ana Ekrana Ekle</h3><div class="du">Çevrimdışı çalışan bir uygulamaya dönüştürün</div></div></div>
+    <div class="field" style="line-height:1.65;font-size:14.5px">
+    <b>iPhone (Safari):</b><br>1. Alttaki <b>Paylaş</b> düğmesine (□↑) dokunun.<br>2. Aşağı kaydırın, <b>Ana Ekrana Ekle</b>'ye dokunun.<br>3. <b>Ekle</b>'ye basın. Simgeden açtığınızda tam ekran çalışır.<br><br>
+    <b>İpucu:</b> uygulamayı bir kez internete bağlıyken açın ki her şey önbelleğe alınsın.<br><br>
+    <b>Not:</b> Bu dosyayı bir web adresinden (GitHub Pages gibi) Safari'de açmalısınız — <code>file://</code> modunda kayıt tutulmaz.</div>`);
+}
+function exportData(){
+  const dump={};
+  ['done','exp','tickets','cfg','hotelnote','insnote'].forEach(k=>dump[k]=Store.get(k,null));
+  const extra={};
+  DAYS.forEach(d=>d.acts.forEach(a=>{const n=Store.get('note_'+a.id,'');if(n)extra['note_'+a.id]=n;
+    const p=Store.get('photos_'+a.id,[]);if(p.length)extra['photos_'+a.id]=p;}));
+  const blob=new Blob([JSON.stringify({...dump,...extra},null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='barselona-yedek.json';a.click();
+  toast('Yedek indirildi');
+}
+
+/* ============================================================
+   YARDIMCI
+   ============================================================ */
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function val(id){const e=document.getElementById(id);return e?e.value.trim():'';}
+function fmtEur(n){return (Math.round(n*100)/100).toLocaleString('tr-TR',{minimumFractionDigits:n%1?2:0,maximumFractionDigits:2})+' €';}
+let toastT;
+function toast(m){const el=document.getElementById('toast');el.textContent=m;el.classList.add('on');
+  clearTimeout(toastT);toastT=setTimeout(()=>el.classList.remove('on'),1800);}
+
+/* ============================================================
+   HAVA DURUMU
+   ============================================================ */
+const WMO={0:['☀️','Açık'],1:['🌤️','Az bulutlu'],2:['⛅','Parçalı bulutlu'],3:['☁️','Kapalı'],
+  45:['🌫️','Sisli'],48:['🌫️','Sisli'],51:['🌦️','Hafif çisenti'],53:['🌦️','Çisenti'],55:['🌦️','Çisenti'],
+  61:['🌧️','Hafif yağmur'],63:['🌧️','Yağmur'],65:['🌧️','Kuvvetli yağmur'],71:['🌨️','Kar'],80:['🌦️','Sağanak'],
+  81:['🌦️','Sağanak'],82:['⛈️','Kuvvetli sağanak'],95:['⛈️','Gök gürültülü'],96:['⛈️','Gök gürültülü']};
+async function loadWeather(){
+  const set=(t,i,d,h)=>{const T=document.getElementById('wxT'),I=document.getElementById('wxI'),D=document.getElementById('wxD'),H=document.getElementById('wxH');
+    if(T)T.textContent=t;if(I)I.textContent=i;if(D)D.textContent=d;if(H)H.textContent=h;};
+  try{
+    const u=`https://api.open-meteo.com/v1/forecast?latitude=${BCN.lat}&longitude=${BCN.lng}&current=temperature_2m,weather_code&daily=temperature_2m_max,temperature_2m_min&timezone=Europe%2FMadrid&forecast_days=1`;
+    const r=await fetch(u);const j=await r.json();
+    const t=Math.round(j.current.temperature_2m);const w=WMO[j.current.weather_code]||['⛅','—'];
+    const hi=Math.round(j.daily.temperature_2m_max[0]),lo=Math.round(j.daily.temperature_2m_min[0]);
+    set(t+'°',w[0],w[1],`En yüksek ${hi}° · en düşük ${lo}°`);
+  }catch(e){
+    set('~13°','⛅','Aralık sonu tipik','Genelde 8–15° · gün batımı ~17:25 · ceket ve şemsiye');
+  }
+}
+
+/* ============================================================
+   BAŞLAT
+   ============================================================ */
+installPWA();
+render();
+loadWeather();
+setInterval(()=>{Notify.tick();},30000);
+setInterval(()=>{if(VIEW==='home')render();},60000);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden){Notify.tick();if(VIEW==='home'){render();loadWeather();}}});
+</script>
+</body>
+</html>
